@@ -1,0 +1,11 @@
+C:\Users\bas_d\source\repos\RandomValuesNppPlugin\RandomValuesNppPlugin\bin\Debug\RandomValuesNppPlugin.dll
+C:\Users\bas_d\source\repos\RandomValuesNppPlugin\RandomValuesNppPlugin\bin\Debug\RandomValuesNppPlugin.pdb
+C:\Users\bas_d\source\repos\RandomValuesNppPlugin\RandomValuesNppPlugin\obj\x86\Debug\RandomValuesNppPlugin.AboutForm.resources
+C:\Users\bas_d\source\repos\RandomValuesNppPlugin\RandomValuesNppPlugin\obj\x86\Debug\RandomValuesNppPlugin.GenerateForm.resources
+C:\Users\bas_d\source\repos\RandomValuesNppPlugin\RandomValuesNppPlugin\obj\x86\Debug\RandomValuesNppPlugin.Properties.Resources.resources
+C:\Users\bas_d\source\repos\RandomValuesNppPlugin\RandomValuesNppPlugin\obj\x86\Debug\RandomValuesNppPlugin.csproj.GenerateResource.cache
+C:\Users\bas_d\source\repos\RandomValuesNppPlugin\RandomValuesNppPlugin\obj\x86\Debug\RandomValuesNppPlugin.csproj.CoreCompileInputs.cache
+C:\Users\bas_d\source\repos\RandomValuesNppPlugin\RandomValuesNppPlugin\obj\x86\Debug\RandomValuesNppPlugin.dll
+C:\Users\bas_d\source\repos\RandomValuesNppPlugin\RandomValuesNppPlugin\obj\x86\Debug\RandomValuesNppPlugin.pdb
+C:\Users\bas_d\source\repos\RandomValuesNppPlugin\RandomValuesNppPlugin\obj\x86\Debug\RandomValuesNppPlugin.OptionsForm.resources
+C:\Users\bas_d\source\repos\RandomValuesNppPlugin\RandomValuesNppPlugin\obj\x86\Debug\RandomValuesNppPlugin.csproj.AssemblyReference.cache

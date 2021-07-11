@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31402.337
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomValuesNppPlugin", "RandomValuesNppPlugin\RandomValuesNppPlugin.csproj", "{DA1D2604-2E95-4A52-8845-DA1249A161A2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA1D2604-2E95-4A52-8845-DA1249A161A2}.Debug|x64.ActiveCfg = Debug|x64
+		{DA1D2604-2E95-4A52-8845-DA1249A161A2}.Debug|x64.Build.0 = Debug|x64
+		{DA1D2604-2E95-4A52-8845-DA1249A161A2}.Debug|x86.ActiveCfg = Debug|x86
+		{DA1D2604-2E95-4A52-8845-DA1249A161A2}.Debug|x86.Build.0 = Debug|x86
+		{DA1D2604-2E95-4A52-8845-DA1249A161A2}.Release|x64.ActiveCfg = Release|x64
+		{DA1D2604-2E95-4A52-8845-DA1249A161A2}.Release|x64.Build.0 = Release|x64
+		{DA1D2604-2E95-4A52-8845-DA1249A161A2}.Release|x86.ActiveCfg = Release|x86
+		{DA1D2604-2E95-4A52-8845-DA1249A161A2}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F4F7FC55-61C9-4A70-8BEB-808060988C34}
+	EndGlobalSection
+EndGlobal
