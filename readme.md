@@ -14,7 +14,7 @@ How to use it
 * select "Generate random values" to generate many random values at once.
 
 You can configure the random value menu items, set the first item to your prefered random value (password, guid etc).
-Clicking the dice icon in the workbar will generate yeild a new random value.
+Clicking the dice icon in the workbar will generate a new random value.
 
 `NOTE: changing the configuration of the menu items requires a restart of Notepad++`
 
@@ -35,9 +35,6 @@ Masks
 
 Examples for String text values.
 
-
-Examples for String text values.
-
     mask character
     --------------------------------
     A  random vowel (AEIOU)
@@ -51,11 +48,15 @@ Examples for String text values.
 
 Some examples of using a mask to generate random text values (not case sensitive):
 
-    mask               remark
-    --------------------------------
-    ababab99       generate "exakir97", "ucatuj24" etc.
-    xxxyyyzz99     passwords
-
+    Datatype   Mask           remark
+    ---------------------------------------------------------------------
+    String     ababab99              For string value, generates "exakir97" etc.
+    String     xxxyyyzz99            passwords
+    DateTime   yyyy/MM/dd            datetime values, "2021/12/31" etc.
+    DateTime   dd-MM-yyyy HH:ss:mm   datetime values, "31-12-2021 23:59:59" etc.
+    DateTime   HH:mm:ss              datetime values, just the time part
+    Integer    -                     currently no mask supported
+    Decimal    -                     currently no mask supported
 
 Note, for generating passwords there are additional options in the generate random values screen.
 Enable `Mix mask` to randomize the order of the mask characters for each generated value.
@@ -68,22 +69,22 @@ Ranges
 ------
 Example integer values 
 
-    {1..20}            Random integer from 1 up to and including 20
-    {100..999}         Random integer from 100 up to and including 999
-    {1,2,3,4,5,6}      Random value between 1 and 6
+    1..20            Random integer from 1 up to and including 20
+    100..999         Random integer from 100 up to and including 999
+    1,2,3,4,5,6      Random value between 1 and 6
 
 Example date values
 
-    {2021..2022}                Random date value between 2021-01-01 up to and including 2022-12-31
-    {2021-06..2022-04}          Random date value between 2021-06-01 up to and including 2022-04-30
-    {2021-06-01..2021-07-01}    Random date value between 2021-06-01 up to and including 2021-07-01
-    {2021..2021}                Random date value between 2021-01-01 up to and including 2021-12-31
+    2021..2022                Random date value between 2021-01-01 up to and including 2022-12-31
+    2021-06..2022-04          Random date value between 2021-06-01 up to and including 2022-04-30
+    2021-06-01..2021-07-01    Random date value between 2021-06-01 up to and including 2021-07-01
+    2021..2021                Random date value between 2021-01-01 up to and including 2021-12-31
 
 Example string values
 
-    {M,F}              Random character M or F
-    {Low,Medium,High}  Random code value "Low", "Medium" or "High"
-    {0,1,9}            Random value 0, 1 or 9
+    M,F              Random character M or F
+    Low,Medium,High  Random code value "Low", "Medium" or "High"
+    0,1,9            Random value 0, 1 or 9
 
 Roadmap/goals
 -------------
@@ -107,6 +108,8 @@ When generating passwords, note that generating lots of values will not guarante
 
 You can use the default Notepad++ regex search + generate value to easily search and replace regex values.
 Use the Notepad++'s built-in macro functionality for large files.
+
+Masks are currently not supported for the datatypes Integer and Decimal.
 
 Acknowledgements
 ----------------
