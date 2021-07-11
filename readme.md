@@ -13,8 +13,12 @@ How to use it
 * Select the menu items to generate a single random value
 * select "Generate random values" to generate many random values at once.
 
-You can configure the random value menu items, set the first item to your prefered random value (password, guid etc).
-Clicking the dice icon in the workbar will generate a new random value.
+You can configure the five random value menu items in the menu `Plugins > Random values > settings` under the heading `Menu items`.
+Set the first menu item to your prefered random value (password, guid etc).
+Clicking the dice icon in the Notepad++ toolbar will generate a new random value.
+
+Hint: you can test configure your random values in the "Generate random values" screen.
+And then finally go to the settings and copy&paste the `GenerateValues` line over to one of the `Menu item` entries.
 
 `NOTE: changing the configuration of the menu items requires a restart of Notepad++`
 
