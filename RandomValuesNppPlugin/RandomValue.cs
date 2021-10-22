@@ -107,6 +107,9 @@ namespace RandomValuesNppPlugin
             Range = sRange;
             Options = sOptions;
 
+            // common user mistake, enter range as "..." instead of  ".."
+            if (Range.IndexOf("...") >= 0) Range = Range.Replace("...", "..");
+
             FloatFormat.NumberDecimalSeparator = ".";
 
             // check range
@@ -268,21 +271,6 @@ namespace RandomValuesNppPlugin
         //   Group 3) optionally, match mask
         //   Group 4) match range
         //   Group 5) optionally, match between breackets for [any,argumenst=extra]
-
-        private static string pattern1 = @"
-            Replace
-            \(
-            (?<filename>\w+)
-            \,\s*
-            \u0022                # double quote
-            \.
-            (?<txt>\w+)
-            \u0022
-            ,\s*
-            \u0022
-            \.
-            (?<doc>\w+)     
-        ";
 
         // original regex:  (?<description>\".*\")\s+(?<datatype>string|int|integer|decimal|datetime|date|time|guid)(?<mask>\(.*\))?(?<range>.+?(?=\[|$))?(?<options>\[.*\])?
         // Use verbatim string, only replace single " with "" see https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/verbatim

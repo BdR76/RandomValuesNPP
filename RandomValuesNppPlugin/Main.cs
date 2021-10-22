@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Forms;
 using Kbg.NppPluginNET.PluginInfrastructure;
 using Kbg.NppPluginNET.Tools;
@@ -15,11 +12,8 @@ namespace Kbg.NppPluginNET
     class Main
     {
         internal const string PluginName = "Random values";
-        static string iniFilePath = null;
         static int idMyDlg = 6;
         static Bitmap tbBmp = RandomValuesNppPlugin.Properties.Resources.random_icon;
-        static Bitmap tbBmp_tbTab = RandomValuesNppPlugin.Properties.Resources.random_icon_bmp;
-        static Icon tbIcon = null;
         static IScintillaGateway editor = new ScintillaGateway(PluginBase.GetCurrentScintilla());
 
         #region " Variables "
@@ -86,8 +80,6 @@ namespace Kbg.NppPluginNET
         internal static void PluginCleanUp()
         {
             // this method gets called when Notepad++ shuts down
-
-            //Win32.WritePrivateProfileString("SomeSection", "SomeKey", someSetting ? "1" : "0", iniFilePath);
         }
 
         #region " Menu functions "

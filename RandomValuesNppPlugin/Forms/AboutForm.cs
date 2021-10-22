@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RandomValuesNppPlugin
@@ -13,6 +8,8 @@ namespace RandomValuesNppPlugin
     public partial class AboutForm : Form
     {
         private readonly ToolTip helperTip = new ToolTip();
+        private int ForceEasterEgg = 0;
+
         public AboutForm()
         {
             InitializeComponent();
@@ -175,6 +172,16 @@ namespace RandomValuesNppPlugin
 
                 // Call the Process.Start method to open the default browser with a URL:
                 System.Diagnostics.Process.Start(url);
+            }
+        }
+
+        private void picEasterEgg_Click(object sender, EventArgs e)
+        {
+            ForceEasterEgg++;
+            if ((ForceEasterEgg == 5) && (picEasterEgg.Image == null))
+            {
+                helperTip.SetToolTip(picEasterEgg, "On certain days in the year you'll find an easter egg here ;)");
+                picEasterEgg.Image = RandomValuesNppPlugin.Properties.Resources.easteregg;
             }
         }
     }

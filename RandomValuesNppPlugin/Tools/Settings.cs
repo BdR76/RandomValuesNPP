@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
-using System.Text.RegularExpressions;
 
 namespace Kbg.NppPluginNET.Tools
 {
@@ -16,7 +11,7 @@ namespace Kbg.NppPluginNET.Tools
         [Description("Random value settings for menu item 1. Close and restart Notepad++ when changing menu items."), Category("Menu items"), DefaultValue("\"Password (strong)\" string(XXXYYYZZZ999) [case=mixed,mixmask=true,pwsafe=true]")]
         public String MenuItem1 { get; set; }
 
-        [Description("Random value settings for menu item 2. Close and restart Notepad++ when changing menu items."), Category("Menu items"), DefaultValue("\"Password (easy)\" string(ABABAB99) [case=lower,pwsafe=true]")]
+        [Description("Random value settings for menu item 2. Close and restart Notepad++ when changing menu items."), Category("Menu items"), DefaultValue("\"Password (easy)\" string(BABABA99) [case=lower,pwsafe=true]")]
         public String MenuItem2 { get; set; }
 
         [Description("Random value settings for menu item 3. Close and restart Notepad++ when changing menu items."), Category("Menu items"), DefaultValue("\"Random guid\" guid")]
@@ -25,9 +20,8 @@ namespace Kbg.NppPluginNET.Tools
         [Description("Random value settings for menu item 4. Close and restart Notepad++ when changing menu items."), Category("Menu items"), DefaultValue("\"Dice throw\" integer {1..6}")]
         public String MenuItem4 { get; set; }
 
-        [Description("Random value settings for menu item 5. Close and restart Notepad++ when changing menu items."), Category("Menu items"), DefaultValue("\"Random color\" string {red,orange,yellow,green,teal,blue,purple,pink,black,white}")]
+        [Description("Random value settings for menu item 5. Close and restart Notepad++ when changing menu items."), Category("Menu items"), DefaultValue("\"Random color (hex)\" string(#FFFFFF)")]
         public String MenuItem5 { get; set; }
-
 
         [Description("Random value add a line feed, set to false for no line feed"), Category("General"), DefaultValue(true)]
         public bool LineFeed { get; set; }
