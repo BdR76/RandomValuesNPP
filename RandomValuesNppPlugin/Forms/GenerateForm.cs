@@ -98,11 +98,6 @@ namespace RandomValuesNppPlugin
             }
         }
 
-        private void ctxmnuGrid_Opening(object sender, CancelEventArgs e)
-        {
-
-        }
-
         private void menuitemMoveRow_Click(object sender, EventArgs e)
         {
             // todo
@@ -125,7 +120,7 @@ namespace RandomValuesNppPlugin
                 listSource.ResetBindings(false);
 
                 gridRandomValues.ClearSelection();
-                gridRandomValues.CurrentCell = gridRandomValues.Rows[idx].Cells[0];
+                gridRandomValues.CurrentCell = gridRandomValues.Rows[idx2].Cells[0];
             }
         }
 
@@ -133,7 +128,7 @@ namespace RandomValuesNppPlugin
         {
             // add random example
             string[] examples = new string[] {
-                "Password|String|XXXYYYZZZ999||case=mixed,mixmask=true,pwsafe=true",
+                "Password|String|XXXXYYYYZZZZ9999||case=mixed,mixmask=true,pwsafe=true",
                 "Birth date|DateTime|dd-MM-yyyy|1970..2010|",
                 "Sex|String||M,F|",
                 "Length cm|Integer||140..200|empty=5",
@@ -211,6 +206,26 @@ namespace RandomValuesNppPlugin
                 }
                 frm.Dispose();
             }
+        }
+
+        private void btnMoveUp_Click(object sender, EventArgs e)
+        {
+            menuitemMoveRow_Click(menuitemMoveUp, e);
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            menuitemAddRow_Click(menuitemAddRow, e);
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            menuitemDelRow_Click(menuitemDelRow, e);
+        }
+
+        private void btnMoveDown_Click(object sender, EventArgs e)
+        {
+            menuitemMoveRow_Click(menuitemMoveDown, e);
         }
     }
 }

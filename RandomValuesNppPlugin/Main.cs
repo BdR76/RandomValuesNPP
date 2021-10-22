@@ -65,6 +65,9 @@ namespace Kbg.NppPluginNET
             // Shortcut :
             PluginBase.SetCommand(9, "Settings", dialogSettings);
             PluginBase.SetCommand(10, "About", dialogAbout);
+
+            // toolbar icon function
+            idMyDlg = (settings.ToolbarRepeatLast ? 6 : 7); // 6 = Repeat, 7 = Generate window
         }
 
         internal static void SetToolBarIcon()

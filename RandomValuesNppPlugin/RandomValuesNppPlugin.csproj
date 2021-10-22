@@ -145,6 +145,18 @@
   <ItemGroup>
     <None Include="Properties\random_icon_png.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\btn_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\btn_delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\btn_move_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\btn_move_up.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildProjectDirectory)\PluginInfrastructure\DllExport\NppPlugin.DllExport.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

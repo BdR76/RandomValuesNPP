@@ -461,6 +461,8 @@ namespace RandomValuesNppPlugin
                 res += b.ToString("x");
             };
 
+            if (CaseChar > 0) res = AdjustCapitalization(res);
+
             return res;
         }
 
@@ -554,7 +556,7 @@ namespace RandomValuesNppPlugin
                     {
                         // mixed/random capitalization
                         var rnd = RandObj.Next(1, 101); // max = exclusive upper bound, so 1..101, not including max, returns values from 1..100
-                        upper = (rnd <= 40); // 40% uppercase
+                        upper = (rnd <= 25); // 25% uppercase
                     }
                     else
                     {

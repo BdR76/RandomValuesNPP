@@ -43,8 +43,10 @@
             this.menuitemSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.menuitemAddRow = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitemDelRow = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuitemSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.menuitemAddExample = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnMoveUp = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnMoveDown = new System.Windows.Forms.Button();
             this.colDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDataType = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.colMask = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,7 +61,7 @@
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(617, 226);
+            this.btnOk.Location = new System.Drawing.Point(662, 226);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 0;
@@ -70,7 +72,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(523, 226);
+            this.btnCancel.Location = new System.Drawing.Point(568, 226);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 1;
@@ -126,6 +128,7 @@
             // 
             // gridRandomValues
             // 
+            this.gridRandomValues.AllowUserToResizeRows = false;
             this.gridRandomValues.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -151,7 +154,7 @@
             this.gridRandomValues.Location = new System.Drawing.Point(14, 12);
             this.gridRandomValues.Name = "gridRandomValues";
             this.gridRandomValues.RowHeadersVisible = false;
-            this.gridRandomValues.Size = new System.Drawing.Size(678, 173);
+            this.gridRandomValues.Size = new System.Drawing.Size(694, 173);
             this.gridRandomValues.TabIndex = 7;
             this.gridRandomValues.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridRandomValues_CellContentClick);
             // 
@@ -162,17 +165,14 @@
             this.menuitemMoveDown,
             this.menuitemSeparator1,
             this.menuitemAddRow,
-            this.menuitemDelRow,
-            this.menuitemSeparator2,
-            this.menuitemAddExample});
+            this.menuitemDelRow});
             this.ctxmnuGrid.Name = "ctxmnuGrid";
-            this.ctxmnuGrid.Size = new System.Drawing.Size(168, 126);
-            this.ctxmnuGrid.Opening += new System.ComponentModel.CancelEventHandler(this.ctxmnuGrid_Opening);
+            this.ctxmnuGrid.Size = new System.Drawing.Size(161, 98);
             // 
             // menuitemMoveUp
             // 
             this.menuitemMoveUp.Name = "menuitemMoveUp";
-            this.menuitemMoveUp.Size = new System.Drawing.Size(167, 22);
+            this.menuitemMoveUp.Size = new System.Drawing.Size(160, 22);
             this.menuitemMoveUp.Tag = "0";
             this.menuitemMoveUp.Text = "Move row up";
             this.menuitemMoveUp.Click += new System.EventHandler(this.menuitemMoveRow_Click);
@@ -180,7 +180,7 @@
             // menuitemMoveDown
             // 
             this.menuitemMoveDown.Name = "menuitemMoveDown";
-            this.menuitemMoveDown.Size = new System.Drawing.Size(167, 22);
+            this.menuitemMoveDown.Size = new System.Drawing.Size(160, 22);
             this.menuitemMoveDown.Tag = "1";
             this.menuitemMoveDown.Text = "Move row down";
             this.menuitemMoveDown.Click += new System.EventHandler(this.menuitemMoveRow_Click);
@@ -188,32 +188,65 @@
             // menuitemSeparator1
             // 
             this.menuitemSeparator1.Name = "menuitemSeparator1";
-            this.menuitemSeparator1.Size = new System.Drawing.Size(164, 6);
+            this.menuitemSeparator1.Size = new System.Drawing.Size(157, 6);
             // 
             // menuitemAddRow
             // 
             this.menuitemAddRow.Name = "menuitemAddRow";
-            this.menuitemAddRow.Size = new System.Drawing.Size(167, 22);
+            this.menuitemAddRow.Size = new System.Drawing.Size(160, 22);
             this.menuitemAddRow.Text = "Add row";
             this.menuitemAddRow.Click += new System.EventHandler(this.menuitemAddRow_Click);
             // 
             // menuitemDelRow
             // 
             this.menuitemDelRow.Name = "menuitemDelRow";
-            this.menuitemDelRow.Size = new System.Drawing.Size(167, 22);
+            this.menuitemDelRow.Size = new System.Drawing.Size(160, 22);
             this.menuitemDelRow.Text = "Remove row";
             this.menuitemDelRow.Click += new System.EventHandler(this.menuitemDelRow_Click);
             // 
-            // menuitemSeparator2
+            // btnMoveUp
             // 
-            this.menuitemSeparator2.Name = "menuitemSeparator2";
-            this.menuitemSeparator2.Size = new System.Drawing.Size(164, 6);
+            this.btnMoveUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMoveUp.Image = global::RandomValuesNppPlugin.Properties.Resources.btn_move_up;
+            this.btnMoveUp.Location = new System.Drawing.Point(714, 12);
+            this.btnMoveUp.Name = "btnMoveUp";
+            this.btnMoveUp.Size = new System.Drawing.Size(26, 24);
+            this.btnMoveUp.TabIndex = 8;
+            this.btnMoveUp.UseVisualStyleBackColor = true;
+            this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
             // 
-            // menuitemAddExample
+            // btnAdd
             // 
-            this.menuitemAddExample.Name = "menuitemAddExample";
-            this.menuitemAddExample.Size = new System.Drawing.Size(167, 22);
-            this.menuitemAddExample.Text = "Add example row";
+            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAdd.Image = global::RandomValuesNppPlugin.Properties.Resources.btn_add;
+            this.btnAdd.Location = new System.Drawing.Point(714, 42);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(26, 24);
+            this.btnAdd.TabIndex = 8;
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDelete.Image = global::RandomValuesNppPlugin.Properties.Resources.btn_delete;
+            this.btnDelete.Location = new System.Drawing.Point(714, 72);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(26, 24);
+            this.btnDelete.TabIndex = 8;
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnMoveDown
+            // 
+            this.btnMoveDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMoveDown.Image = global::RandomValuesNppPlugin.Properties.Resources.btn_move_down;
+            this.btnMoveDown.Location = new System.Drawing.Point(714, 102);
+            this.btnMoveDown.Name = "btnMoveDown";
+            this.btnMoveDown.Size = new System.Drawing.Size(26, 24);
+            this.btnMoveDown.TabIndex = 8;
+            this.btnMoveDown.UseVisualStyleBackColor = true;
+            this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
             // 
             // colDescription
             // 
@@ -258,13 +291,19 @@
             this.colOptionsBtn.Name = "colOptionsBtn";
             this.colOptionsBtn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colOptionsBtn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colOptionsBtn.Text = "...";
+            this.colOptionsBtn.UseColumnTextForButtonValue = true;
             this.colOptionsBtn.Width = 48;
             // 
             // GenerateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(704, 261);
+            this.ClientSize = new System.Drawing.Size(749, 261);
+            this.Controls.Add(this.btnMoveDown);
+            this.Controls.Add(this.btnDelete);
+            this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.btnMoveUp);
             this.Controls.Add(this.gridRandomValues);
             this.Controls.Add(this.lblOutputType);
             this.Controls.Add(this.cmbOutputType);
@@ -299,8 +338,10 @@
         private System.Windows.Forms.ToolStripSeparator menuitemSeparator1;
         private System.Windows.Forms.ToolStripMenuItem menuitemAddRow;
         private System.Windows.Forms.ToolStripMenuItem menuitemDelRow;
-        private System.Windows.Forms.ToolStripSeparator menuitemSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem menuitemAddExample;
+        private System.Windows.Forms.Button btnMoveUp;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnMoveDown;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDescription;
         private System.Windows.Forms.DataGridViewComboBoxColumn colDataType;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMask;
