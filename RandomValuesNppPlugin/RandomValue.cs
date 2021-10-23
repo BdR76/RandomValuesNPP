@@ -58,10 +58,10 @@ namespace RandomValuesNppPlugin
         public string Range = "";
         private string RangeOperate = "";
         private bool RangeMinMax = false;
-        private int RangeIntMin = 0;
-        private int RangeIntMax = 0;
-        private double RangeDblMin = 0.0;
-        private double RangeDblMax = 0.0;
+        private int RangeIntMin = 10;
+        private int RangeIntMax = 99;
+        private double RangeDblMin = 10.0;
+        private double RangeDblMax = 99.9;
         private DateTime RangeDateMin;
         private bool RangeInclTime = false;
         public int EmptyPerc = 0;
@@ -110,6 +110,22 @@ namespace RandomValuesNppPlugin
             // common user mistake, enter range as "..." instead of  ".."
             if (Range.IndexOf("...") >= 0) Range = Range.Replace("...", "..");
 
+            // common user mistake, mask for integer or decimal
+            if ((DataType == RandomDataType.Integer) || (DataType == RandomDataType.Decimal)) Mask = ""; // mask not supported atm
+
+            // common user mistake, no explicit range
+            if (Range == "")
+            {
+                // add explicit range
+                if (DataType == RandomDataType.Integer) Range = "10..99";
+                if (DataType == RandomDataType.Decimal) Range = "10.0..99.9";
+                if (DataType == RandomDataType.DateTime)
+                {
+                    int currentyear = DateTime.Now.Year;
+                    Range = string.Format("{0}..{1}", currentyear-1, currentyear);
+                }
+            }
+
             FloatFormat.NumberDecimalSeparator = ".";
 
             // check range
@@ -136,8 +152,19 @@ namespace RandomValuesNppPlugin
                 // precalc string to int
                 if ((RangeMinMax) && (DataType == RandomDataType.Integer))
                 {
-                    Int32.TryParse(ListRange[0], out RangeIntMin);
-                    Int32.TryParse(ListRange[1], out RangeIntMax);
+                    var bool1 = Int32.TryParse(ListRange[0], out RangeIntMin);
+                    var bool2 = Int32.TryParse(ListRange[1], out RangeIntMax);
+
+                    // check if any error in range
+                    if (!bool1 || !bool2)
+                    {
+                        // overwrite with default value
+                        Range = "10..99";
+                        RangeIntMin = 10;
+                        RangeIntMax = 99;
+                    }
+
+                    // fix min max error
                     if (RangeIntMin > RangeIntMax)
                     {
                         var tmp = RangeIntMin;
@@ -150,9 +177,19 @@ namespace RandomValuesNppPlugin
                 if ((RangeMinMax) && (DataType == RandomDataType.Decimal))
                 {
 
-                    Double.TryParse(ListRange[0], NumberStyles.Any, CultureInfo.InvariantCulture, out RangeDblMin);
-                    Double.TryParse(ListRange[1], NumberStyles.Any, CultureInfo.InvariantCulture, out RangeDblMax);
+                    var bool1 = Double.TryParse(ListRange[0], NumberStyles.Any, CultureInfo.InvariantCulture, out RangeDblMin);
+                    var bool2 = Double.TryParse(ListRange[1], NumberStyles.Any, CultureInfo.InvariantCulture, out RangeDblMax);
 
+                    // check if any error in range
+                    if (!bool1 || !bool2)
+                    {
+                        // overwrite with default value
+                        Range = "10.0..99.9";
+                        RangeDblMin = 10.0;
+                        RangeDblMax = 99.9;
+                    }
+
+                    // fix min max error
                     if (RangeDblMin > RangeDblMax)
                     {
                         var tmp = RangeDblMin;
@@ -218,11 +255,11 @@ namespace RandomValuesNppPlugin
                 // * padd zeroes decimals
 
                 // get additional options
-                dictOptions.TryGetValue("width", out var wid);
+                dictOptions.TryGetValue("width",   out var wid);
                 dictOptions.TryGetValue("mixmask", out var mix);
-                dictOptions.TryGetValue("pwsafe", out var pws);
-                dictOptions.TryGetValue("case", out var cas);
-                dictOptions.TryGetValue("empty", out var emp);
+                dictOptions.TryGetValue("pwsafe",  out var pws);
+                dictOptions.TryGetValue("case",    out var cas);
+                dictOptions.TryGetValue("empty",   out var emp);
 
                 cas = (cas ?? "").ToLower();
                 string[] testcase = new string[] { "(none)", "lower", "upper", "mixed", "initcap" };
@@ -247,12 +284,12 @@ namespace RandomValuesNppPlugin
         {
             var res = "";
 
-            if (_width > 0) res += "width=" + _width.ToString() + ",";
-            if (EmptyPerc > 0) res += "empty=" + EmptyPerc.ToString() + ",";
-            if ((CaseChar > 0) && (CaseChar <= 4)) res += "case=" + OptionCaseNames[CaseChar] + ",";
+            if (_width > 0)                        res += "width=" + _width.ToString() + ",";
+            if (EmptyPerc > 0)                     res += "empty=" + EmptyPerc.ToString() + ",";
+            if ((CaseChar > 0) && (CaseChar <= 4)) res +=  "case=" + OptionCaseNames[CaseChar] + ",";
 
             if (MixMask) res += "mixmask=true,";
-            if (PwSafe) res += "pwsafe=true,";
+            if (PwSafe)  res +=  "pwsafe=true,";
 
             // remove last comma
             //res = res.Remove(res.Length - 1);
@@ -292,11 +329,11 @@ namespace RandomValuesNppPlugin
             if (m.Success)
             {
                 // set local variables
-                var sName = m.Groups["description"].ToString();
+                var sName     = m.Groups["description"].ToString();
                 var sDataType = m.Groups["datatype"].ToString();
-                var sMask = m.Groups["mask"].ToString().Trim();
-                var sRange = m.Groups["range"].ToString().Trim();
-                var sOptions = m.Groups["options"].ToString();
+                var sMask     = m.Groups["mask"].ToString().Trim();
+                var sRange    = m.Groups["range"].ToString().Trim();
+                var sOptions  = m.Groups["options"].ToString();
 
                 // remove quotes
                 sName = sName.Substring(1, sName.Length - 2);
@@ -328,9 +365,9 @@ namespace RandomValuesNppPlugin
             // example 2022       -> max range = '2023-01-01' (max generated date effectively '2022-12-31')
             // example 2022-04    -> max range = '2022-05-01' (max generated date effectively '2022-04-30')
             // example 2022-12-31 -> max range = '2023-01-01' (max generated date effectively '2022-12-31')
-            var addday = (max && dt.Length > 7 ? 1 : 0);
+            var addday   = (max && dt.Length > 7 ? 1 : 0);
             var addmonth = (max && dt.Length > 4 && dt.Length <= 7 ? 1 : 0);
-            var addyear = (max && dt.Length == 4 ? 1 : 0);
+            var addyear  = (max && dt.Length == 4 ? 1 : 0);
 
             dt += (dt.Length > 4 ? (dt.Length > 7 ? "" : "-01") : "-01-01");
 

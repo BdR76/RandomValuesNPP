@@ -165,15 +165,15 @@ namespace Kbg.NppPluginNET
 
             if (res == DialogResult.OK)
             {
-                // OK save settings
-                saveGenerateValues(outtype, amount, list);
-
                 // transform settings to actual random nr generator
                 List<RandomValue> listrnd = new List<RandomValue>();
                 foreach (var r in list)
                 {
                     listrnd.Add(new RandomValue(r.Description, r.DataType.ToString(), r.Mask, r.Range, r.Options));
                 }
+
+                // OK save 'cleaned' settings, i.e. validated in new RandomValue()
+                saveGenerateValues(outtype, amount, listrnd);
 
                 // generate values
                 var s = RandomValues.Generate(listrnd, outtype, amount);
@@ -182,7 +182,7 @@ namespace Kbg.NppPluginNET
             };
         }
 
-        static void saveGenerateValues(int outtyp, int amount, List<RandomValueListItem> list)
+        static void saveGenerateValues(int outtyp, int amount, List<RandomValue> list)
         {
             settings.GenerateType = outtyp;
             settings.GenerateAmount = amount;
@@ -195,7 +195,7 @@ namespace Kbg.NppPluginNET
                     // mask, range optional
                     var msk = list[i - 1].Mask;
                     var rng = list[i - 1].Range;
-                    var opt = list[i - 1].Options;
+                    var opt = list[i - 1].GetOptionsAsString();
 
                     msk = (msk != "" ? "(" + msk + ")" : "");
                     rng = (rng != "" ? " {" + rng + "}" : "");
