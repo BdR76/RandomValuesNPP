@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kbg.NppPluginNET;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -58,7 +59,7 @@ namespace RandomValuesNppPlugin
         {
 
             sb.Append("-- -------------------------------------\r\n");
-            sb.Append("-- Random Values plug-in for Notepad++ v0.1\r\n");
+            sb.Append(string.Format("-- Notepad++ Random Values plug-in v{0}\r\n", Main.GetVersion()));
             sb.Append("-- -------------------------------------\r\n");
             sb.Append(string.Format("CREATE TABLE {0}(\r\n\t", TABLE_NAME));
             var cols = "\t";
