@@ -133,6 +133,12 @@
   <data name="clover" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>clover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="dice_black_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\dice_black_32px.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dice_white_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\dice_white_32px.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="easteregg" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>easteregg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

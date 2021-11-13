@@ -61,6 +61,7 @@
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Forms\AboutForm.cs">
@@ -156,6 +157,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\btn_move_up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dice_black_32px.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dice_white_32px.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildProjectDirectory)\PluginInfrastructure\DllExport\NppPlugin.DllExport.targets" />

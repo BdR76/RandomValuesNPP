@@ -14,7 +14,12 @@ namespace Kbg.NppPluginNET
     {
         internal const string PluginName = "Random values";
         static int idMyDlg = 6;
+
+        // toolbar icons
         static Bitmap tbBmp = RandomValuesNppPlugin.Properties.Resources.random_icon;
+        static Icon tbIco = RandomValuesNppPlugin.Properties.Resources.dice_black_32;
+        static Icon tbIcoDM = RandomValuesNppPlugin.Properties.Resources.dice_white_32;
+
         static IScintillaGateway editor = new ScintillaGateway(PluginBase.GetCurrentScintilla());
 
         #region " Variables "
@@ -73,11 +78,22 @@ namespace Kbg.NppPluginNET
 
         internal static void SetToolBarIcon()
         {
+            // create struct
             toolbarIcons tbIcons = new toolbarIcons();
+
+            // add bmp icon
             tbIcons.hToolbarBmp = tbBmp.GetHbitmap();
+            tbIcons.hToolbarIcon = tbIco.Handle;            // icon with black lines
+            tbIcons.hToolbarIconDarkMode = tbIcoDM.Handle;  // icon with light grey lines
+
+            // convert to c++ pointer
             IntPtr pTbIcons = Marshal.AllocHGlobal(Marshal.SizeOf(tbIcons));
             Marshal.StructureToPtr(tbIcons, pTbIcons, false);
-            Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_ADDTOOLBARICON, PluginBase._funcItems.Items[idMyDlg]._cmdID, pTbIcons);
+
+            // call Notepad++ api
+            Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_ADDTOOLBARICON_FORDARKMODE, PluginBase._funcItems.Items[idMyDlg]._cmdID, pTbIcons);
+
+            // release pointer
             Marshal.FreeHGlobal(pTbIcons);
         }
 
