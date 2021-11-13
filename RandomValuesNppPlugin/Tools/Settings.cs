@@ -34,6 +34,24 @@ namespace Kbg.NppPluginNET.Tools
 
         // TODO: generate columns are limited to 10 because at the moment, a settings item cannot be of type TList<string>
 
+        [Description("Generate mySQL compatible ANSI SQL, set to false for MS-SQL."), Category("RandomGenerate"), DefaultValue(true)]
+        public bool SQLansi { get; set; }
+
+        [Description("Generate tablename or recordname, for SQL, XML and JSON"), Category("RandomGenerate"), DefaultValue("Tablename")]
+        public String GenerateTablename { get; set; }
+
+        private int _generateBatch;
+
+        [Description("Generate SQL maximum records per insert batch, minimum batch size is 10."), Category("RandomGenerate"), DefaultValue(1000)]
+        public int GenerateBatch
+        {
+            get { return _generateBatch; }
+            set
+            {
+                _generateBatch = Math.Max(value, 10);
+            }
+        }
+
         [Description("The output type for the random values to generate (0..6)."), Category("RandomGenerate"), DefaultValue(1)]
         public int GenerateType { get; set; }
 

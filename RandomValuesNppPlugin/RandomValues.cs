@@ -2,17 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml;
 
 namespace RandomValuesNppPlugin
 {
     class RandomValues
     {
-        private const int MAX_SQL_ROWS = 1000;
-        private const string TABLE_NAME = "TableName";
-
-        public static String Generate(List<RandomValue> list, int outputtype, int amount)
+        public static String Generate()
         {
+            // get settings
+            var list = GetRandomValueColumns();
+            var outputtype = Main.settings.GenerateType;
+            var amount = Main.settings.GenerateAmount;
 
+            // generate values
             StringBuilder sb = new StringBuilder();
 
             switch (outputtype)
@@ -40,34 +44,96 @@ namespace RandomValuesNppPlugin
             return sb.ToString();
         }
 
+        private static List<RandomValue> GetRandomValueColumns()
+        {
+            var list = new List<RandomValue>();
+            for (var i = 1; i < 10; i++)
+            {
+                String def = "";
+
+                if (i == 1) def = Main.settings.GenerateCol01;
+                if (i == 2) def = Main.settings.GenerateCol02;
+                if (i == 3) def = Main.settings.GenerateCol03;
+                if (i == 4) def = Main.settings.GenerateCol04;
+                if (i == 5) def = Main.settings.GenerateCol05;
+                if (i == 6) def = Main.settings.GenerateCol06;
+                if (i == 7) def = Main.settings.GenerateCol07;
+                if (i == 8) def = Main.settings.GenerateCol08;
+                if (i == 9) def = Main.settings.GenerateCol09;
+                if (i == 10) def = Main.settings.GenerateCol10;
+
+                if (def != "")
+                {
+                    list.Add(new RandomValue(def));
+                }
+            };
+            return list;
+        }
+
         private static void GenerateCSV(StringBuilder sb, List<RandomValue> list, int amount, char sep)
         {
+            // column headers
+            for (var r = 0; r < list.Count; r++)
+            {
+                // add column separator
+                if (r > 0) sb.Append(sep);
+
+                // next value
+                var val = list[r].Description;
+
+                // add quotes when value contains separator
+                if (val.IndexOf(sep) >= 0) val = string.Format("\"{0}\"", val);
+
+                sb.Append(val);
+            }
+            sb.Append("\r\n");
+
+            // add values
             for (var i = 0; i < amount; i++)
             {
                 for (var r = 0; r < list.Count; r++)
                 {
+                    // add column separator
                     if (r > 0)
                     {
                         sb.Append(sep);
                     };
-                    sb.Append(list[r].NextValue());
+
+                    // next value
+                    var val = list[r].NextValue();
+
+                    // add quotes when value contains separator
+                    if (val.IndexOf(sep) >= 0) val = string.Format("\"{0}\"", val);
+
+                    sb.Append(val);
                 }
                 sb.Append("\r\n");
             };
         }
         private static void GenerateSQL(StringBuilder sb, List<RandomValue> list, int amount)
         {
+            bool SQLansi = Main.settings.SQLansi;
+            var TableName = Main.settings.GenerateTablename;
+            string recidname = "_record_number";
 
             sb.Append("-- -------------------------------------\r\n");
             sb.Append(string.Format("-- Notepad++ Random Values plug-in v{0}\r\n", Main.GetVersion()));
+            sb.Append(string.Format("-- Date: {0}\r\n", DateTime.Now.ToString("dd-MMM-yyyy HH:mm")));
+            sb.Append(string.Format("-- Records: {0}\r\n", amount));
+            sb.Append(string.Format("-- SQL ANSI: {0}\r\n", (Main.settings.SQLansi ? "mySQL" : "MS-SQL")));
             sb.Append("-- -------------------------------------\r\n");
-            sb.Append(string.Format("CREATE TABLE {0}(\r\n\t", TABLE_NAME));
+            sb.Append(string.Format("CREATE TABLE {0}(\r\n\t", TableName));
+
+            if (Main.settings.SQLansi)
+                sb.Append(string.Format("`{0}` int AUTO_INCREMENT NOT NULL,\r\n\t", recidname)); // mySQL
+            else
+                sb.Append(string.Format("[{0}] int IDENTITY(1,1) PRIMARY KEY,\r\n\t", recidname)); // MS-SQL
             var cols = "\t";
 
             for (var r = 0; r < list.Count; r++)
             {
                 // determine sql column name
-                var sqlname = '[' + list[r].Description + ']';
+                string sqlname = string.Format((Main.settings.SQLansi ? "`{0}`" : "[{0}]"), list[r].Description);
 
                 // determine sql datatype
                 var sqltype = "varchar";
@@ -78,10 +144,15 @@ namespace RandomValuesNppPlugin
                 {
                     sqltype = string.Format("numeric({0},{1})", list[r].Width, list[r].FloatDec);
                 }
-                // for SQL date format always needs to be ISO format
+                // for SQL varchar format needs width
                 if (list[r].DataType == RandomDataType.String)
                 {
                     sqltype = string.Format("varchar({0})", list[r].Width);
+                }
+                // for SQL numeric format always use point decimals
+                if (list[r].DataType == RandomDataType.Decimal)
+                {
+                    list[r].FloatFormat.NumberDecimalSeparator = ".";
                 }
                 // for SQL date format always needs to be ISO format
                 if (list[r].DataType == RandomDataType.DateTime)
@@ -104,22 +175,25 @@ namespace RandomValuesNppPlugin
                 };
             };
 
-            sb.Append("\r\n)");
-            sb.Append("\r\ngo\r\n");
+            // primary key definition for mySQL
+            if (Main.settings.SQLansi) sb.Append(string.Format(",\r\n\tprimary key(`{0}`)", recidname));
 
-            var maxrec = MAX_SQL_ROWS;
+            sb.Append("\r\n);\r\n\r\n");
+
+            var maxrec = 0;
+            var MaxSQLrows = Main.settings.GenerateBatch;
 
             for (var i = 0; i < amount; i++)
             {
-                if (i % MAX_SQL_ROWS == 0)
+                if (i % MaxSQLrows == 0)
                 {
-                    maxrec = i + MAX_SQL_ROWS;
+                    maxrec = i + MaxSQLrows;
                     maxrec = (maxrec > amount ? amount : maxrec);
 
                     sb.Append("-- -------------------------------------\r\n");
                     sb.Append(String.Format("-- insert records {0} - {1}\r\n", (i+1), maxrec));
                     sb.Append("-- -------------------------------------\r\n");
-                    sb.Append(string.Format("insert into {0}(\r\n", TABLE_NAME));
+                    sb.Append(string.Format("insert into {0}(\r\n", TableName));
                     sb.Append(cols);
                     sb.Append("\r\n) values");
                 }
@@ -140,6 +214,7 @@ namespace RandomValuesNppPlugin
                     }
                     else
                     {
+                        // quoted strings
                         if (   (list[r].DataType == RandomDataType.String)
                             || (list[r].DataType == RandomDataType.DateTime)
                             || (list[r].DataType == RandomDataType.Guid) ) str = string.Format("'{0}'", str);
@@ -153,30 +228,84 @@ namespace RandomValuesNppPlugin
                 }
                 else
                 {
-                    sb.Append("\r\ngo\r\n");
+                    sb.Append(";\r\n\r\n");
                 };
             };
         }
+
+        private static string GetValidXMLTagName(string xmlkey)
+        {
+            // replace invalid XML characters with space
+            var validTagName = "";
+            foreach (char ch in xmlkey)
+            {
+                validTagName += (XmlConvert.IsNCNameChar(ch) ? ch : ' ');
+            }
+
+            // replace all spaces (also double/multiple spaces) with single underscore
+            RegexOptions options = RegexOptions.None;
+            Regex regex = new Regex("[ ]{1,}", options);
+            validTagName = regex.Replace(validTagName, "_");
+
+            // if starts with digit, add a '_' at start
+            if (validTagName == "" || !XmlConvert.IsStartNCNameChar(validTagName[0]))
+                validTagName = "_" + validTagName;
+
+            return validTagName;
+        }
+
+        private static string GetValidXMLValue(String strval)
+        {
+
+            strval = strval.Replace("&", "&amp;");
+            strval = strval.Replace(">", "&gt;");
+            strval = strval.Replace("<", "&lt;");
+            strval = strval.Replace("<", "&lt;");
+
+            return strval;
+        }
+
         private static void GenerateXML(StringBuilder sb, List<RandomValue> list, int amount)
         {
+            // change to valid tagnames, outside of the amount-loop because it only needs to be done once per column description
+            for (var r = 0; r < list.Count; r++)
+            {
+                list[r].Description = GetValidXMLTagName(list[r].Description);
+            }
+
             sb.Append("<RandomValues>\r\n");
+
+            sb.Append(string.Format("\t<!-- {0} random node objects -->\r\n", amount));
             for (var i = 0; i < amount; i++)
             {
-                sb.Append(string.Format("\t<{0}>\r\n", TABLE_NAME));
+                sb.Append(string.Format("\t<{0}>\r\n", Main.settings.GenerateTablename));
                 for (var r = 0; r < list.Count; r++)
                 {
-                    var str = string.Format("\t\t<{0}>{1}</{0}>\r\n", list[r].Description, list[r].NextValue());
+                    var val = GetValidXMLValue(list[r].NextValue());
+
+                    var str = string.Format("\t\t<{0}>{1}</{0}>\r\n", list[r].Description, val);
                     sb.Append(str);
                 }
-                sb.Append(string.Format("\t</{0}>\r\n", TABLE_NAME));
+                sb.Append(string.Format("\t</{0}>\r\n", Main.settings.GenerateTablename));
             };
             sb.Append("</RandomValues>\r\n");
         }
         private static void GenerateJSON(StringBuilder sb, List<RandomValue> list, int amount)
         {
+
+            // for JSON numeric format always use point decimals
+            for (var r = 0; r < list.Count; r++)
+            {
+                if (list[r].DataType == RandomDataType.Decimal)
+                {
+                    list[r].FloatFormat.NumberDecimalSeparator = ".";
+                }
+            }
+
+            // generate JSON header
             sb.Append("{\r\n");
             sb.Append("\t\"RandomDataGenerator\":{\r\n");
-            sb.Append(string.Format("\t\t\"{0}\":[\r\n", TABLE_NAME));
+            sb.Append(string.Format("\t\t\"{0}\":[\r\n", Main.settings.GenerateTablename));
 
             for (var i = 0; i < amount; i++)
             {

@@ -174,63 +174,16 @@ namespace Kbg.NppPluginNET
         {
             var genform = new GenerateForm(settings);
             DialogResult res = genform.ShowDialog();
-            List<RandomValueListItem> list = genform.GetRandomValuesList();
-            var outtype = genform.GetOutputType();
-            var amount = genform.GetAmount();
+
             genform.Dispose();
 
             if (res == DialogResult.OK)
             {
-                // transform settings to actual random nr generator
-                List<RandomValue> listrnd = new List<RandomValue>();
-                foreach (var r in list)
-                {
-                    listrnd.Add(new RandomValue(r.Description, r.DataType.ToString(), r.Mask, r.Range, r.Options));
-                }
-
-                // OK save 'cleaned' settings, i.e. validated in new RandomValue()
-                saveGenerateValues(outtype, amount, listrnd);
-
                 // generate values
-                var s = RandomValues.Generate(listrnd, outtype, amount);
+                var s = RandomValues.Generate();
                 editor.ReplaceSel(s);
                 if (settings.LineFeed) editor.NewLine();
             };
-        }
-
-        static void saveGenerateValues(int outtyp, int amount, List<RandomValue> list)
-        {
-            settings.GenerateType = outtyp;
-            settings.GenerateAmount = amount;
-
-            for (var i = 1; i < 10; i++)
-            {
-                var def = "";
-                if (i <= list.Count)
-                {
-                    // mask, range optional
-                    var msk = list[i - 1].Mask;
-                    var rng = list[i - 1].Range;
-                    var opt = list[i - 1].GetOptionsAsString();
-
-                    msk = (msk != "" ? "(" + msk + ")" : "");
-                    rng = (rng != "" ? " {" + rng + "}" : "");
-                    opt = (opt != "" ? " [" + opt + "]" : "");
-                    def = String.Format("\"{0}\" {1}{2}{3}{4}", list[i - 1].Description, list[i - 1].DataType.ToString().ToLower(), msk, rng, opt);
-                }
-
-                if (i == 1)  settings.GenerateCol01 = def;
-                if (i == 2)  settings.GenerateCol02 = def;
-                if (i == 3)  settings.GenerateCol03 = def;
-                if (i == 4)  settings.GenerateCol04 = def;
-                if (i == 5)  settings.GenerateCol05 = def;
-                if (i == 6)  settings.GenerateCol06 = def;
-                if (i == 7)  settings.GenerateCol07 = def;
-                if (i == 8)  settings.GenerateCol08 = def;
-                if (i == 9)  settings.GenerateCol09 = def;
-                if (i == 10) settings.GenerateCol10 = def;
-            };
-            settings.SaveToIniFile();
         }
 
         static void dialogSettings()

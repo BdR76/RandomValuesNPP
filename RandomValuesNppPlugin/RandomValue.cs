@@ -68,7 +68,7 @@ namespace RandomValuesNppPlugin
         public int Width = 50; // actual used width
         public int _width = 0; // explicitly set by by user
         public int FloatDec = 1;
-        private NumberFormatInfo FloatFormat = new NumberFormatInfo();
+        public NumberFormatInfo FloatFormat = new NumberFormatInfo();
         private string Options = "";
         public List<string> ListRange;
         public List<string> ListOptions;
@@ -126,7 +126,9 @@ namespace RandomValuesNppPlugin
                 }
             }
 
+            // default point decimal separator and no thousand/group separator
             FloatFormat.NumberDecimalSeparator = ".";
+            FloatFormat.NumberGroupSeparator = "";
 
             // check range
             if (Range != "")
@@ -176,9 +178,16 @@ namespace RandomValuesNppPlugin
                 // precalc string to float
                 if ((RangeMinMax) && (DataType == RandomDataType.Decimal))
                 {
+                    // get decimal position or -1 if not found
+                    int pos1 = ListRange[0].LastIndexOf('.');
+                    int pos2 = ListRange[0].LastIndexOf(',');
+                    pos = (pos1 > pos2 ? pos1 : pos2);
 
-                    var bool1 = Double.TryParse(ListRange[0], NumberStyles.Any, CultureInfo.InvariantCulture, out RangeDblMin);
-                    var bool2 = Double.TryParse(ListRange[1], NumberStyles.Any, CultureInfo.InvariantCulture, out RangeDblMax);
+                    // decimal character
+                    FloatFormat.NumberDecimalSeparator = (pos1 > pos2 || pos == -1 ? "." : ",");
+
+                    var bool1 = Double.TryParse(ListRange[0], NumberStyles.Any, FloatFormat, out RangeDblMin);
+                    var bool2 = Double.TryParse(ListRange[1], NumberStyles.Any, FloatFormat, out RangeDblMax);
 
                     // check if any error in range
                     if (!bool1 || !bool2)
@@ -197,10 +206,14 @@ namespace RandomValuesNppPlugin
                         RangeDblMax = tmp;
                     };
 
-                    var dec = ListRange[0].IndexOf('.');
+                    var dec = ListRange[0].IndexOf(FloatFormat.NumberDecimalSeparator);
                     FloatDec = (dec >= 0 ? ListRange[0].Length - dec - 1 : 0);
 
                     FloatFormat.NumberDecimalDigits = FloatDec;
+
+                    // width for decimal values
+                    Width = (ListRange[0].Length > ListRange[1].Length ? ListRange[0].Length : ListRange[1].Length);
+
                     //Mask = "0.";
                     //Mask = Mask.PadRight(FloatDec + 2, '0');
                 }
@@ -365,6 +378,15 @@ namespace RandomValuesNppPlugin
             // example 2022       -> max range = '2023-01-01' (max generated date effectively '2022-12-31')
             // example 2022-04    -> max range = '2022-05-01' (max generated date effectively '2022-04-30')
             // example 2022-12-31 -> max range = '2023-01-01' (max generated date effectively '2022-12-31')
+
+            // exception, add century when two digit year
+            if (dt.Length < 4)
+            {
+                dt = (DateTime.Now.Year.ToString().Substring(0, 2) + dt);
+                // year must be exactly 4 characters, right string 4
+                dt = (dt.Length > 4 ? dt.Substring(dt.Length - 4) : dt);
+            }
+
             var addday   = (max && dt.Length > 7 ? 1 : 0);
             var addmonth = (max && dt.Length > 4 && dt.Length <= 7 ? 1 : 0);
             var addyear  = (max && dt.Length == 4 ? 1 : 0);
@@ -375,7 +397,7 @@ namespace RandomValuesNppPlugin
 
             try
             {
-                res = DateTime.ParseExact(dt, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture).AddYears(addyear).AddMonths(addmonth).AddDays(addday);
+                res = DateTime.ParseExact(dt, "yyyy-M-d", System.Globalization.CultureInfo.InvariantCulture).AddYears(addyear).AddMonths(addmonth).AddDays(addday);
             }
             catch
             {

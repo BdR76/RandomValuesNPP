@@ -1,4 +1,5 @@
-﻿using Kbg.NppPluginNET.Tools;
+﻿using Kbg.NppPluginNET;
+using Kbg.NppPluginNET.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -69,30 +70,21 @@ namespace RandomValuesNppPlugin
 
             // settings
             cmbOutputType.SelectedIndex = (settings.GenerateType >= 0 && settings.GenerateType < cmbOutputType.Items.Count ? settings.GenerateType : 0);
-            txtAmount.Text = settings.GenerateAmount.ToString();
+            numAmount.Value = settings.GenerateAmount;
+
+            // extra settings
+            txtTablename.Text = settings.GenerateTablename;
+            rdbtnMySQL.Checked = settings.SQLansi;
+            rdbtnMSSQL.Checked = !settings.SQLansi;
+            numBatch.Value = settings.GenerateBatch;
         }
 
-        public List<RandomValueListItem> GetRandomValuesList()
+        private void txtNumeric_Validating(object sender, CancelEventArgs e)
         {
-            return listRandomValues;
-        }
-        public int GetAmount()
-        {
-            int.TryParse(txtAmount.Text, out int res);
-            return res;
-        }
-        public int GetOutputType()
-        {
-            return cmbOutputType.SelectedIndex;
-        }
-
-        private void txtAmount_Validating(object sender, CancelEventArgs e)
-        {
-            int val;
             TextBox tb = sender as TextBox;
-            if (!int.TryParse(tb.Text, out val))
+            if (!int.TryParse(tb.Text, out _))
             {
-                MessageBox.Show(tb.Tag + " must be numeric.");
+                MessageBox.Show(tb.Text + " is not a numeric value.");
                 tb.Undo();
                 e.Cancel = true;
             }
@@ -226,6 +218,57 @@ namespace RandomValuesNppPlugin
         private void btnMoveDown_Click(object sender, EventArgs e)
         {
             menuitemMoveRow_Click(menuitemMoveDown, e);
+        }
+
+        private void cmbOutputType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var idx = cmbOutputType.SelectedIndex;
+
+            lblTablename.Visible = (idx >= 3); // 3=sql, 4=xml, 5=json
+            txtTablename.Visible = (idx >= 3);
+            pnlSQL.Visible       = (idx == 3); // 3=sql
+        }
+
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+            Main.settings.GenerateType = cmbOutputType.SelectedIndex;
+            Main.settings.GenerateAmount = Convert.ToInt32(numAmount.Value);
+
+            for (var i = 1; i < 10; i++)
+            {
+                var def = "";
+                if (i <= listRandomValues.Count)
+                {
+                    // mask, range optional
+                    var msk = listRandomValues[i - 1].Mask;
+                    var rng = listRandomValues[i - 1].Range;
+                    var opt = listRandomValues[i - 1].Options;
+
+                    msk = (msk != "" ? "(" + msk + ")" : "");
+                    rng = (rng != "" ? " {" + rng + "}" : "");
+                    opt = (opt != "" ? " [" + opt + "]" : "");
+                    def = String.Format("\"{0}\" {1}{2}{3}{4}", listRandomValues[i - 1].Description, listRandomValues[i - 1].DataType.ToString().ToLower(), msk, rng, opt);
+                }
+
+                if (i == 1) Main.settings.GenerateCol01 = def;
+                if (i == 2) Main.settings.GenerateCol02 = def;
+                if (i == 3) Main.settings.GenerateCol03 = def;
+                if (i == 4) Main.settings.GenerateCol04 = def;
+                if (i == 5) Main.settings.GenerateCol05 = def;
+                if (i == 6) Main.settings.GenerateCol06 = def;
+                if (i == 7) Main.settings.GenerateCol07 = def;
+                if (i == 8) Main.settings.GenerateCol08 = def;
+                if (i == 9) Main.settings.GenerateCol09 = def;
+                if (i == 10) Main.settings.GenerateCol10 = def;
+            };
+
+            // extra settings
+            Main.settings.GenerateTablename = txtTablename.Text;
+            Main.settings.SQLansi = (rdbtnMySQL.Checked);
+            Main.settings.GenerateBatch = Convert.ToInt32(numBatch.Value);
+
+            // save to ini file
+            Main.settings.SaveToIniFile();
         }
     }
 }
