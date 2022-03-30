@@ -1,6 +1,6 @@
 RandomValues - Notepad++ plugin
 ===============================
-
+![Release version](https://img.shields.io/github/v/release/BdR76/RandomValuesNPP) ![GitHub all releases](https://img.shields.io/github/downloads/BdR76/RandomValuesNPP/total) ![GitHub latest release](https://img.shields.io/github/downloads/BdR76/RandomValuesNPP/latest/total)  
 RandomValues is a plug-in for Notepad++ for generating passwords or test data for database and app development, performance testing, designing reports etc.
 
 ![preview screenshot](/randomvalues_preview.png?raw=true "RandomValues plug-in preview")
