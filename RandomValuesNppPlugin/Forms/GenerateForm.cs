@@ -35,7 +35,7 @@ namespace RandomValuesNppPlugin
             //};
 
             listRandomValues = new List<RandomValueListItem>();
-            for (var i = 1; i < 10; i++)
+            for (var i = 1; i <= 10; i++)
             {
                 String def = "";
 
@@ -234,7 +234,7 @@ namespace RandomValuesNppPlugin
             Main.settings.GenerateType = cmbOutputType.SelectedIndex;
             Main.settings.GenerateAmount = Convert.ToInt32(numAmount.Value);
 
-            for (var i = 1; i < 10; i++)
+            for (var i = 1; i <= 10; i++)
             {
                 var def = "";
                 if (i <= listRandomValues.Count)
