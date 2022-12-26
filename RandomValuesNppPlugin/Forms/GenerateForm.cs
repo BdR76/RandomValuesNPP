@@ -118,6 +118,9 @@ namespace RandomValuesNppPlugin
 
         private void menuitemAddRow_Click(object sender, EventArgs e)
         {
+            // Prevent users from adding more than the ten supported rows
+            if (listRandomValues.Count >= 10) return
+            
             // add random example
             string[] examples = new string[] {
                 "Password|String|XXXXYYYYZZZZ9999||case=mixed,mixmask=true,pwsafe=true",
