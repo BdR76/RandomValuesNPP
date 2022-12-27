@@ -35,7 +35,7 @@ namespace RandomValuesNppPlugin
             //};
 
             listRandomValues = new List<RandomValueListItem>();
-            for (var i = 1; i < 10; i++)
+            for (var i = 1; i <= 10; i++)
             {
                 String def = "";
 
@@ -118,6 +118,9 @@ namespace RandomValuesNppPlugin
 
         private void menuitemAddRow_Click(object sender, EventArgs e)
         {
+            // Prevent users from adding more than the ten supported rows
+            if (listRandomValues.Count >= 10) return
+            
             // add random example
             string[] examples = new string[] {
                 "Password|String|XXXXYYYYZZZZ9999||case=mixed,mixmask=true,pwsafe=true",
@@ -234,7 +237,7 @@ namespace RandomValuesNppPlugin
             Main.settings.GenerateType = cmbOutputType.SelectedIndex;
             Main.settings.GenerateAmount = Convert.ToInt32(numAmount.Value);
 
-            for (var i = 1; i < 10; i++)
+            for (var i = 1; i <= 10; i++)
             {
                 var def = "";
                 if (i <= listRandomValues.Count)
