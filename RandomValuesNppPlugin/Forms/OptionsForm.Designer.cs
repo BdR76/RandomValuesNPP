@@ -154,6 +154,7 @@ namespace RandomValuesNppPlugin
             this.Controls.Add(this.labelCase);
             this.Controls.Add(this.labelWidth);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
             this.Name = "OptionsForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

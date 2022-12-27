@@ -119,7 +119,7 @@ namespace RandomValuesNppPlugin
         private void menuitemAddRow_Click(object sender, EventArgs e)
         {
             // Prevent users from adding more than the ten supported rows
-            if (listRandomValues.Count >= 10) return
+            if (listRandomValues.Count >= 10) return;
             
             // add random example
             string[] examples = new string[] {
