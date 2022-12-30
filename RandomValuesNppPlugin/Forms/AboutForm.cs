@@ -18,14 +18,11 @@ namespace RandomValuesNppPlugin
             lblTitle.Text += ver;
 
             // tooltip initialization
-            helperTip.SetToolTip(lnkGithub, "Open the RandomValues GitHub page (right-click to copy url)");
-            helperTip.SetToolTip(lnkContact, "Send comments or suggestions (right-click to copy address)");
+            helperTip.SetToolTip(btnDonate, "Support this plug-in by buying me a coffee!");
+            helperTip.SetToolTip(lnkInfo, "Send comments or suggestions (right-click to copy e-mail address)");
+            helperTip.SetToolTip(lnkGithub, "Open the Random Values plug-in GitHub page (right-click to copy url)");
 
             DisplayEasterEgg();
-        }
-        private void AboutForm_Load(object sender, EventArgs e)
-        {
-
         }
 
         private int IsEaster(DateTime dt)
@@ -64,15 +61,15 @@ namespace RandomValuesNppPlugin
             DateTime today = DateTime.Now.AddHours(-3); // day 'starts' in the morning and lasts after midnight (especially for new years eve etc.)
             //DateTime today = new DateTime(2021, 12, 31); // testing
 
-            String msg = "";
-            String obj = "";
+            string msg = "";
+            string obj = "";
             Image img = RandomValuesNppPlugin.Properties.Resources.easteregg;
 
             int easter = IsEaster(today);
             if (easter > 0)
             {
                 // March/April ?th, varies
-                msg = String.Format("Easter {0}day", (easter == 1 ? "Sun" : "Mon"));
+                msg = string.Format("Easter {0}day", (easter == 1 ? "Sun" : "Mon"));
                 obj = "an Easter egg";
                 img = RandomValuesNppPlugin.Properties.Resources.easteregg;
             }
@@ -104,7 +101,7 @@ namespace RandomValuesNppPlugin
             // initialization easter egg
             if (msg != "")
             {
-                String tip = String.Format("Happy {0}! You've found {1} ;)", msg, obj);
+                string tip = String.Format("Happy {0}! You've found {1} ;)", msg, obj);
                 helperTip.SetToolTip(picEasterEgg, tip);
                 picEasterEgg.Image = img;
                 picEasterEgg.Visible = true;
@@ -137,24 +134,22 @@ namespace RandomValuesNppPlugin
         //}
         private void OnLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            LinkLabel lbl = (sender as LinkLabel);
+            LinkLabel lbl = sender as LinkLabel;
             string url = lbl.Text;
             string urlcopy = url;
-            if ((string)lbl.Tag == "0")
+            if ((string)lbl.Tag == "1")
             {
-                url = "https://github.com/BdR76/RandomValuesNPP/";
-                urlcopy = url;
-            }
-            else
-            {
-                string sub = lblTitle.Text.Replace(" ", "%20");
-                url = string.Format("mailto:{0}?subject={1}", url, sub);
+                urlcopy = "Bas de Reuver <bdr1976@gmail.com>";
+                url = string.Format("mailto:{0}?subject={1}", urlcopy, lblTitle.Text);
+                url = url.Replace(" ", "%20");
             }
 
             if (e.Button == MouseButtons.Right)
             {
                 Clipboard.SetText(urlcopy); // urlcopy is e-mai address without "mailto:.."
-            } else {
+            }
+            else
+            {
                 // Change the color of the link text by setting LinkVisited to true.
                 lbl.LinkVisited = true;
 
@@ -171,6 +166,13 @@ namespace RandomValuesNppPlugin
                 helperTip.SetToolTip(picEasterEgg, "On certain days in the year you'll find an easter egg here ;)");
                 picEasterEgg.Image = RandomValuesNppPlugin.Properties.Resources.easteregg;
             }
+        }
+
+        private void btnDonate_Click(object sender, EventArgs e)
+        {
+            // Call the Process.Start method to open the default browser with a URL:
+            var url = "https://www.buymeacoffee.com/bdr76";
+            System.Diagnostics.Process.Start(url);
         }
     }
 }
