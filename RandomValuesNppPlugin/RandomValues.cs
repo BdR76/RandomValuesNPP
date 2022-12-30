@@ -112,33 +112,42 @@ namespace RandomValuesNppPlugin
         }
         private static void GenerateSQL(StringBuilder sb, List<RandomValue> list, int amount)
         {
-            bool SQLansi = Main.settings.SQLansi;
+            int SQLansi = Main.settings.SQLansi;
             var TableName = Main.settings.GenerateTablename;
             string recidname = "_record_number";
+            string SQL_TYPE = (Main.settings.SQLansi <= 1 ? (Main.settings.SQLansi == 0 ? "mySQL" : "MS-SQL") : "PostgreSQL");
 
             sb.Append("-- -------------------------------------\r\n");
             sb.Append(string.Format("-- Notepad++ Random Values plug-in v{0}\r\n", Main.GetVersion()));
             sb.Append(string.Format("-- Date: {0}\r\n", DateTime.Now.ToString("dd-MMM-yyyy HH:mm")));
             sb.Append(string.Format("-- Records: {0}\r\n", amount));
-            sb.Append(string.Format("-- SQL ANSI: {0}\r\n", (Main.settings.SQLansi ? "mySQL" : "MS-SQL")));
+            sb.Append(string.Format("-- SQL type: {0}\r\n", SQL_TYPE));
             sb.Append("-- -------------------------------------\r\n");
             sb.Append(string.Format("CREATE TABLE {0}(\r\n\t", TableName));
 
-            if (Main.settings.SQLansi)
-                sb.Append(string.Format("`{0}` int AUTO_INCREMENT NOT NULL,\r\n\t", recidname)); // mySQL
-            else
-                sb.Append(string.Format("[{0}] int IDENTITY(1,1) PRIMARY KEY,\r\n\t", recidname)); // MS-SQL
+            switch (Main.settings.SQLansi)
+            {
+                case 1:
+                    sb.Append(string.Format("[{0}] int IDENTITY(1,1) PRIMARY KEY,\r\n\t", recidname)); // MS-SQL
+                    break;
+                case 2:
+                    sb.Append(string.Format("\"{0}\" SERIAL PRIMARY KEY,\r\n\t", recidname)); // PostgreSQL
+                    break;
+                default: // 0=mySQL
+                    sb.Append(string.Format("`{0}` int AUTO_INCREMENT NOT NULL,\r\n\t", recidname)); // mySQL
+                    break;
+            }
             var cols = "\t";
 
             for (var r = 0; r < list.Count; r++)
             {
-                // determine sql column name
-                string sqlname = string.Format((Main.settings.SQLansi ? "`{0}`" : "[{0}]"), list[r].Description);
+                // determine sql column name -> mySQL = `colname`, MS-SQL = [colname], PostgreSQL = "colname"
+                string sqlname = string.Format((Main.settings.SQLansi <= 1 ? (Main.settings.SQLansi == 0 ? "`{0}`" : "[{0}]") : "\"{0}\""), list[r].Description);
 
                 // determine sql datatype
                 var sqltype = "varchar";
                 if (list[r].DataType == RandomDataType.Integer) sqltype = "integer";
-                if (list[r].DataType == RandomDataType.DateTime) sqltype = "datetime";
+                if (list[r].DataType == RandomDataType.DateTime) sqltype = (Main.settings.SQLansi < 2 ? "datetime" : "timestamp"); // mySQL/MS-SQL = datetime, PostgreSQL=timestamp
                 if (list[r].DataType == RandomDataType.Guid) sqltype = "varchar(36)";
                 if (list[r].DataType == RandomDataType.Decimal)
                 {
@@ -176,7 +185,7 @@ namespace RandomValuesNppPlugin
             };
 
             // primary key definition for mySQL
-            if (Main.settings.SQLansi) sb.Append(string.Format(",\r\n\tprimary key(`{0}`)", recidname));
+            if (Main.settings.SQLansi == 0) sb.Append(string.Format(",\r\n\tprimary key(`{0}`)", recidname));
 
             sb.Append("\r\n);\r\n\r\n");
 

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using RandomValuesNppPlugin.Tools;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing.Design;
 
 namespace Kbg.NppPluginNET.Tools
 {
@@ -34,8 +37,8 @@ namespace Kbg.NppPluginNET.Tools
 
         // TODO: generate columns are limited to 10 because at the moment, a settings item cannot be of type TList<string>
 
-        [Description("Generate mySQL compatible ANSI SQL, set to false for MS-SQL."), Category("RandomGenerate"), DefaultValue(true)]
-        public bool SQLansi { get; set; }
+        [Description("Generate SQL for database type mySQL, MS-SQL or PostgreSQL (0, 1 or 2)."), Category("RandomGenerate"), DefaultValue(0)]
+        public int SQLansi { get; set; }
 
         [Description("Generate tablename or recordname, for SQL, XML and JSON"), Category("RandomGenerate"), DefaultValue("Tablename")]
         public String GenerateTablename { get; set; }

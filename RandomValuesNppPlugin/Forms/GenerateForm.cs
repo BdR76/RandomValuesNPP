@@ -74,8 +74,10 @@ namespace RandomValuesNppPlugin
 
             // extra settings
             txtTablename.Text = settings.GenerateTablename;
-            rdbtnMySQL.Checked = settings.SQLansi;
-            rdbtnMSSQL.Checked = !settings.SQLansi;
+
+            var idx = Main.settings.SQLansi;
+            cmbSQLtype.SelectedIndex = (idx >= 0 && idx <= 2 ? idx : 0);
+
             numBatch.Value = settings.GenerateBatch;
         }
 
@@ -120,16 +122,19 @@ namespace RandomValuesNppPlugin
         {
             // Prevent users from adding more than the ten supported rows
             if (listRandomValues.Count >= 10) return;
-            
+
+            // example based on current year
+            var yr = DateTime.Now.Year;
+
             // add random example
             string[] examples = new string[] {
                 "Password|String|XXXXYYYYZZZZ9999||case=mixed,mixmask=true,pwsafe=true",
-                "Birth date|DateTime|dd-MM-yyyy|1970..2010|",
+                string.Format("Birth date|DateTime|dd-MM-yyyy|{0}..{1}|", yr-50, yr-10),
                 "Sex|String||M,F|",
                 "Length cm|Integer||140..200|empty=5",
                 "Weight kg|Decimal||50.0..100.0|empty=5",
                 "Postal code|String|9999XX||",
-                "Follow-up date|DateTime|dd-MM-yyyy|2020-01..2020-03|",
+                string.Format("Follow-up date|DateTime|dd-MM-yyyy|{0}-01..{0}-05|", yr),
                 "Device unit price|Decimal||50.00..300.00|",
                 "Medical device|String|||width=15"
             };
@@ -267,7 +272,7 @@ namespace RandomValuesNppPlugin
 
             // extra settings
             Main.settings.GenerateTablename = txtTablename.Text;
-            Main.settings.SQLansi = (rdbtnMySQL.Checked);
+            Main.settings.SQLansi = cmbSQLtype.SelectedIndex;
             Main.settings.GenerateBatch = Convert.ToInt32(numBatch.Value);
 
             // save to ini file

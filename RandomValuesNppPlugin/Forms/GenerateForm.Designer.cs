@@ -57,10 +57,9 @@
             this.pnlSQL = new System.Windows.Forms.Panel();
             this.numBatch = new System.Windows.Forms.NumericUpDown();
             this.lblBatch = new System.Windows.Forms.Label();
-            this.rdbtnMSSQL = new System.Windows.Forms.RadioButton();
-            this.rdbtnMySQL = new System.Windows.Forms.RadioButton();
-            this.lblSQLansi = new System.Windows.Forms.Label();
+            this.lblSQLtype = new System.Windows.Forms.Label();
             this.numAmount = new System.Windows.Forms.NumericUpDown();
+            this.cmbSQLtype = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridRandomValues)).BeginInit();
             this.ctxmnuGrid.SuspendLayout();
             this.pnlSQL.SuspendLayout();
@@ -91,55 +90,49 @@
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // btnMoveUp
+            // cmbOutputType
             // 
-            this.btnMoveUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMoveUp.Image = global::RandomValuesNppPlugin.Properties.Resources.btn_move_up;
-            this.btnMoveUp.Location = new System.Drawing.Point(714, 12);
-            this.btnMoveUp.Name = "btnMoveUp";
-            this.btnMoveUp.Size = new System.Drawing.Size(26, 24);
-            this.btnMoveUp.TabIndex = 2;
-            this.btnMoveUp.UseVisualStyleBackColor = true;
-            this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
+            this.cmbOutputType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cmbOutputType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbOutputType.FormattingEnabled = true;
+            this.cmbOutputType.Items.AddRange(new object[] {
+            "Comma separated (CSV)",
+            "Tab separated",
+            "Semi-colon separated",
+            "SQL",
+            "XML",
+            "JSON"});
+            this.cmbOutputType.Location = new System.Drawing.Point(82, 201);
+            this.cmbOutputType.Name = "cmbOutputType";
+            this.cmbOutputType.Size = new System.Drawing.Size(178, 21);
+            this.cmbOutputType.TabIndex = 7;
+            this.cmbOutputType.SelectedIndexChanged += new System.EventHandler(this.cmbOutputType_SelectedIndexChanged);
             // 
-            // btnAdd
+            // lblOutputType
             // 
-            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdd.Image = global::RandomValuesNppPlugin.Properties.Resources.btn_add;
-            this.btnAdd.Location = new System.Drawing.Point(714, 42);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(26, 24);
-            this.btnAdd.TabIndex = 3;
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            this.lblOutputType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblOutputType.AutoSize = true;
+            this.lblOutputType.Location = new System.Drawing.Point(14, 204);
+            this.lblOutputType.Name = "lblOutputType";
+            this.lblOutputType.Size = new System.Drawing.Size(62, 13);
+            this.lblOutputType.TabIndex = 6;
+            this.lblOutputType.Text = "Output type";
             // 
-            // btnDelete
+            // lblAmount
             // 
-            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDelete.Image = global::RandomValuesNppPlugin.Properties.Resources.btn_delete;
-            this.btnDelete.Location = new System.Drawing.Point(714, 72);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(26, 24);
-            this.btnDelete.TabIndex = 4;
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // btnMoveDown
-            // 
-            this.btnMoveDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMoveDown.Image = global::RandomValuesNppPlugin.Properties.Resources.btn_move_down;
-            this.btnMoveDown.Location = new System.Drawing.Point(714, 102);
-            this.btnMoveDown.Name = "btnMoveDown";
-            this.btnMoveDown.Size = new System.Drawing.Size(26, 24);
-            this.btnMoveDown.TabIndex = 5;
-            this.btnMoveDown.UseVisualStyleBackColor = true;
-            this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
+            this.lblAmount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblAmount.AutoSize = true;
+            this.lblAmount.Location = new System.Drawing.Point(14, 232);
+            this.lblAmount.Name = "lblAmount";
+            this.lblAmount.Size = new System.Drawing.Size(43, 13);
+            this.lblAmount.TabIndex = 2;
+            this.lblAmount.Text = "Amount";
             // 
             // gridRandomValues
             // 
             this.gridRandomValues.AllowUserToResizeRows = false;
-            this.gridRandomValues.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.gridRandomValues.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gridRandomValues.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridRandomValues.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -260,39 +253,55 @@
             this.menuitemDelRow.Text = "Remove row";
             this.menuitemDelRow.Click += new System.EventHandler(this.menuitemDelRow_Click);
             // 
-            // lblOutputType
+            // btnMoveUp
             // 
-            this.lblOutputType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblOutputType.AutoSize = true;
-            this.lblOutputType.Location = new System.Drawing.Point(14, 205);
-            this.lblOutputType.Name = "lblOutputType";
-            this.lblOutputType.Size = new System.Drawing.Size(62, 13);
-            this.lblOutputType.TabIndex = 6;
-            this.lblOutputType.Text = "Output type";
+            this.btnMoveUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMoveUp.Image = global::RandomValuesNppPlugin.Properties.Resources.btn_move_up;
+            this.btnMoveUp.Location = new System.Drawing.Point(714, 12);
+            this.btnMoveUp.Name = "btnMoveUp";
+            this.btnMoveUp.Size = new System.Drawing.Size(26, 24);
+            this.btnMoveUp.TabIndex = 2;
+            this.btnMoveUp.UseVisualStyleBackColor = true;
+            this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
             // 
-            // cmbOutputType
+            // btnAdd
             // 
-            this.cmbOutputType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cmbOutputType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbOutputType.FormattingEnabled = true;
-            this.cmbOutputType.Items.AddRange(new object[] {
-            "Comma separated (CSV)",
-            "Tab separated",
-            "Semi-colon separated",
-            "SQL",
-            "XML",
-            "JSON"});
-            this.cmbOutputType.Location = new System.Drawing.Point(82, 201);
-            this.cmbOutputType.Name = "cmbOutputType";
-            this.cmbOutputType.Size = new System.Drawing.Size(178, 21);
-            this.cmbOutputType.TabIndex = 7;
-            this.cmbOutputType.SelectedIndexChanged += new System.EventHandler(this.cmbOutputType_SelectedIndexChanged);
+            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAdd.Image = global::RandomValuesNppPlugin.Properties.Resources.btn_add;
+            this.btnAdd.Location = new System.Drawing.Point(714, 42);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(26, 24);
+            this.btnAdd.TabIndex = 3;
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDelete.Image = global::RandomValuesNppPlugin.Properties.Resources.btn_delete;
+            this.btnDelete.Location = new System.Drawing.Point(714, 72);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(26, 24);
+            this.btnDelete.TabIndex = 4;
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnMoveDown
+            // 
+            this.btnMoveDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMoveDown.Image = global::RandomValuesNppPlugin.Properties.Resources.btn_move_down;
+            this.btnMoveDown.Location = new System.Drawing.Point(714, 102);
+            this.btnMoveDown.Name = "btnMoveDown";
+            this.btnMoveDown.Size = new System.Drawing.Size(26, 24);
+            this.btnMoveDown.TabIndex = 5;
+            this.btnMoveDown.UseVisualStyleBackColor = true;
+            this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
             // 
             // lblTablename
             // 
             this.lblTablename.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblTablename.AutoSize = true;
-            this.lblTablename.Location = new System.Drawing.Point(280, 202);
+            this.lblTablename.Location = new System.Drawing.Point(280, 204);
             this.lblTablename.Name = "lblTablename";
             this.lblTablename.Size = new System.Drawing.Size(60, 13);
             this.lblTablename.TabIndex = 2;
@@ -307,15 +316,51 @@
             this.txtTablename.TabIndex = 8;
             this.txtTablename.Text = "Tablename";
             // 
-            // lblAmount
+            // pnlSQL
             // 
-            this.lblAmount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblAmount.AutoSize = true;
-            this.lblAmount.Location = new System.Drawing.Point(14, 232);
-            this.lblAmount.Name = "lblAmount";
-            this.lblAmount.Size = new System.Drawing.Size(43, 13);
-            this.lblAmount.TabIndex = 2;
-            this.lblAmount.Text = "Amount";
+            this.pnlSQL.Controls.Add(this.cmbSQLtype);
+            this.pnlSQL.Controls.Add(this.numBatch);
+            this.pnlSQL.Controls.Add(this.lblBatch);
+            this.pnlSQL.Controls.Add(this.lblSQLtype);
+            this.pnlSQL.Location = new System.Drawing.Point(152, 228);
+            this.pnlSQL.Name = "pnlSQL";
+            this.pnlSQL.Size = new System.Drawing.Size(367, 29);
+            this.pnlSQL.TabIndex = 10;
+            // 
+            // numBatch
+            // 
+            this.numBatch.Location = new System.Drawing.Point(44, 1);
+            this.numBatch.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.numBatch.Name = "numBatch";
+            this.numBatch.Size = new System.Drawing.Size(64, 20);
+            this.numBatch.TabIndex = 11;
+            this.numBatch.Value = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            // 
+            // lblBatch
+            // 
+            this.lblBatch.AutoSize = true;
+            this.lblBatch.Location = new System.Drawing.Point(0, 4);
+            this.lblBatch.Name = "lblBatch";
+            this.lblBatch.Size = new System.Drawing.Size(43, 13);
+            this.lblBatch.TabIndex = 4;
+            this.lblBatch.Text = "/ Batch";
+            // 
+            // lblSQLtype
+            // 
+            this.lblSQLtype.AutoSize = true;
+            this.lblSQLtype.Location = new System.Drawing.Point(128, 4);
+            this.lblSQLtype.Name = "lblSQLtype";
+            this.lblSQLtype.Size = new System.Drawing.Size(51, 13);
+            this.lblSQLtype.TabIndex = 0;
+            this.lblSQLtype.Text = "SQL type";
             // 
             // numAmount
             // 
@@ -334,74 +379,18 @@
             0,
             0});
             // 
-            // pnlSQL
+            // cmbSQLtype
             // 
-            this.pnlSQL.Controls.Add(this.numBatch);
-            this.pnlSQL.Controls.Add(this.lblBatch);
-            this.pnlSQL.Controls.Add(this.rdbtnMSSQL);
-            this.pnlSQL.Controls.Add(this.rdbtnMySQL);
-            this.pnlSQL.Controls.Add(this.lblSQLansi);
-            this.pnlSQL.Location = new System.Drawing.Point(152, 229);
-            this.pnlSQL.Name = "pnlSQL";
-            this.pnlSQL.Size = new System.Drawing.Size(367, 29);
-            this.pnlSQL.TabIndex = 10;
-            // 
-            // lblBatch
-            // 
-            this.lblBatch.AutoSize = true;
-            this.lblBatch.Location = new System.Drawing.Point(0, 3);
-            this.lblBatch.Name = "lblBatch";
-            this.lblBatch.Size = new System.Drawing.Size(43, 13);
-            this.lblBatch.TabIndex = 4;
-            this.lblBatch.Text = "/ Batch";
-            // 
-            // numBatch
-            // 
-            this.numBatch.Location = new System.Drawing.Point(44, 0);
-            this.numBatch.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.numBatch.Name = "numBatch";
-            this.numBatch.Size = new System.Drawing.Size(64, 20);
-            this.numBatch.TabIndex = 11;
-            this.numBatch.Value = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            // 
-            // lblSQLansi
-            // 
-            this.lblSQLansi.AutoSize = true;
-            this.lblSQLansi.Location = new System.Drawing.Point(132, 3);
-            this.lblSQLansi.Name = "lblSQLansi";
-            this.lblSQLansi.Size = new System.Drawing.Size(56, 13);
-            this.lblSQLansi.TabIndex = 0;
-            this.lblSQLansi.Text = "SQL ANSI";
-            // 
-            // rdbtnMySQL
-            // 
-            this.rdbtnMySQL.AutoSize = true;
-            this.rdbtnMySQL.Location = new System.Drawing.Point(194, 0);
-            this.rdbtnMySQL.Name = "rdbtnMySQL";
-            this.rdbtnMySQL.Size = new System.Drawing.Size(59, 17);
-            this.rdbtnMySQL.TabIndex = 12;
-            this.rdbtnMySQL.TabStop = true;
-            this.rdbtnMySQL.Text = "mySQL";
-            this.rdbtnMySQL.UseVisualStyleBackColor = true;
-            // 
-            // rdbtnMSSQL
-            // 
-            this.rdbtnMSSQL.AutoSize = true;
-            this.rdbtnMSSQL.Location = new System.Drawing.Point(261, 0);
-            this.rdbtnMSSQL.Name = "rdbtnMSSQL";
-            this.rdbtnMSSQL.Size = new System.Drawing.Size(65, 17);
-            this.rdbtnMSSQL.TabIndex = 13;
-            this.rdbtnMSSQL.TabStop = true;
-            this.rdbtnMSSQL.Text = "MS-SQL";
-            this.rdbtnMSSQL.UseVisualStyleBackColor = true;
+            this.cmbSQLtype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSQLtype.FormattingEnabled = true;
+            this.cmbSQLtype.Items.AddRange(new object[] {
+            "MySQL",
+            "MS-SQL",
+            "PostgreSQL"});
+            this.cmbSQLtype.Location = new System.Drawing.Point(194, 0);
+            this.cmbSQLtype.Name = "cmbSQLtype";
+            this.cmbSQLtype.Size = new System.Drawing.Size(92, 21);
+            this.cmbSQLtype.TabIndex = 12;
             // 
             // GenerateForm
             // 
@@ -468,8 +457,7 @@
         private System.Windows.Forms.Panel pnlSQL;
         private System.Windows.Forms.Label lblBatch;
         private System.Windows.Forms.NumericUpDown numBatch;
-        private System.Windows.Forms.Label lblSQLansi;
-        private System.Windows.Forms.RadioButton rdbtnMSSQL;
-        private System.Windows.Forms.RadioButton rdbtnMySQL;
+        private System.Windows.Forms.Label lblSQLtype;
+        private System.Windows.Forms.ComboBox cmbSQLtype;
     }
 }
