@@ -14,8 +14,9 @@ namespace RandomValuesNppPlugin
         {
             InitializeComponent();
 
-            String ver = Main.GetVersion();
-            lblTitle.Text += ver;
+            string ver = Main.GetVersion();
+            string suffix = string.Format("{0} ({1}bit)", ver, (IntPtr.Size * 8));
+            lblTitle.Text += suffix;
 
             // tooltip initialization
             helperTip.SetToolTip(btnDonate, "Support this plug-in by buying me a coffee!");
