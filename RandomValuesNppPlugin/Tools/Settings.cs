@@ -60,37 +60,97 @@ namespace Kbg.NppPluginNET.Tools
         [Description("The output type for the random values to generate (0..6)."), Category("RandomGenerate"), DefaultValue(1)]
         public int GenerateType { get; set; }
 
-        [Description("The amount of random value records to generate."), Category("RandomGenerate"), DefaultValue(25)]
+        [Description("The amount of random value records to generate."), Category("RandomGenerate"), DefaultValue(100)]
         public int GenerateAmount { get; set; }
 
-        [Description("Generate random values, definition column 1"), Category("RandomGenerate"), DefaultValue("\"Order ID\" integer {1001..9999}")]
+        [Description("Generate random values, definition column 1"), Category("RandomGenerateCols"), DefaultValue("\"Order ID\" integer {1001..9999}")]
         public String GenerateCol01 { get; set; }
 
-        [Description("Generate random values, definition column 2"), Category("RandomGenerate"), DefaultValue("\"Order date\" datetime(dd-MM-yyyy) {2020..2021}")]
+        [Description("Generate random values, definition column 2"), Category("RandomGenerateCols"), DefaultValue("\"Order date\" datetime(dd-MM-yyyy) {2020..2021}")]
         public String GenerateCol02 { get; set; }
 
-        [Description("Generate random values, definition column 3"), Category("RandomGenerate"), DefaultValue("\"Order price\" decimal {10.0..99.9}")]
+        [Description("Generate random values, definition column 3"), Category("RandomGenerateCols"), DefaultValue("\"Order price\" decimal {10.0..99.9}")]
         public String GenerateCol03 { get; set; }
 
-        [Description("Generate random values, definition column 4"), Category("RandomGenerate"), DefaultValue("\"Parts group\" string {ENGINE,ELECTRA,CARBODY,CHASSIS,INTERIO,CLIMATE}")]
+        [Description("Generate random values, definition column 4"), Category("RandomGenerateCols"), DefaultValue("\"Parts group\" string {ENGINE,ELECTRA,CARBODY,CHASSIS,INTERIO,CLIMATE}")]
         public String GenerateCol04 { get; set; }
 
-        [Description("Generate random values, definition column 5"), Category("RandomGenerate"), DefaultValue("\"Order description\" string [width=15]")]
+        [Description("Generate random values, definition column 5"), Category("RandomGenerateCols"), DefaultValue("\"Order description\" string [width=15]")]
         public String GenerateCol05 { get; set; }
 
-        [Description("Generate random values, definition column 6"), Category("RandomGenerate"), DefaultValue("")]
+        [Description("Generate random values, definition column 6"), Category("RandomGenerateCols"), DefaultValue("")]
         public String GenerateCol06 { get; set; }
 
-        [Description("Generate random values, definition column 7"), Category("RandomGenerate"), DefaultValue("")]
+        [Description("Generate random values, definition column 7"), Category("RandomGenerateCols"), DefaultValue("")]
         public String GenerateCol07 { get; set; }
 
-        [Description("Generate random values, definition column 8"), Category("RandomGenerate"), DefaultValue("")]
+        [Description("Generate random values, definition column 8"), Category("RandomGenerateCols"), DefaultValue("")]
         public String GenerateCol08 { get; set; }
 
-        [Description("Generate random values, definition column 9"), Category("RandomGenerate"), DefaultValue("")]
+        [Description("Generate random values, definition column 9"), Category("RandomGenerateCols"), DefaultValue("")]
         public String GenerateCol09 { get; set; }
 
-        [Description("Generate random values, definition column 10"), Category("RandomGenerate"), DefaultValue("")]
+        [Description("Generate random values, definition column 10"), Category("RandomGenerateCols"), DefaultValue("")]
         public String GenerateCol10 { get; set; }
+
+        [Description("Generate random values, definition column 11"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol11 { get; set; }
+
+        [Description("Generate random values, definition column 12"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol12 { get; set; }
+
+        [Description("Generate random values, definition column 13"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol13 { get; set; }
+
+        [Description("Generate random values, definition column 14"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol14 { get; set; }
+
+        [Description("Generate random values, definition column 15"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol15 { get; set; }
+
+        [Description("Generate random values, definition column 16"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol16 { get; set; }
+
+        [Description("Generate random values, definition column 17"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol17 { get; set; }
+
+        [Description("Generate random values, definition column 18"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol18 { get; set; }
+
+        [Description("Generate random values, definition column 19"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol19 { get; set; }
+
+        [Description("Generate random values, definition column 20"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol20 { get; set; }
+
+        [Description("Generate random values, definition column 21"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol21 { get; set; }
+
+        [Description("Generate random values, definition column 22"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol22 { get; set; }
+
+        [Description("Generate random values, definition column 23"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol23 { get; set; }
+
+        [Description("Generate random values, definition column 24"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol24 { get; set; }
+
+        [Description("Generate random values, definition column 25"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol25 { get; set; }
+
+        [Description("Generate random values, definition column 26"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol26 { get; set; }
+
+        [Description("Generate random values, definition column 27"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol27 { get; set; }
+
+        [Description("Generate random values, definition column 28"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol28 { get; set; }
+
+        [Description("Generate random values, definition column 29"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol29 { get; set; }
+
+        [Description("Generate random values, definition column 30"), Category("RandomGenerateCols"), DefaultValue("")]
+        public String GenerateCol30 { get; set; }
     }
 }

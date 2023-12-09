@@ -48,10 +48,11 @@ namespace RandomValuesNppPlugin
         private static List<RandomValue> GetRandomValueColumns()
         {
             var list = new List<RandomValue>();
-            for (var i = 1; i <= 10; i++)
+            for (var i = 1; i <= 30; i++)
             {
                 String def = "";
 
+                // I know this code is ugly, please submit PR if you know how to store a List<string> as a settings-list using the current Settings/SettingsBase
                 if (i == 1) def = Main.settings.GenerateCol01;
                 if (i == 2) def = Main.settings.GenerateCol02;
                 if (i == 3) def = Main.settings.GenerateCol03;
@@ -62,6 +63,28 @@ namespace RandomValuesNppPlugin
                 if (i == 8) def = Main.settings.GenerateCol08;
                 if (i == 9) def = Main.settings.GenerateCol09;
                 if (i == 10) def = Main.settings.GenerateCol10;
+
+                if (i == 11) def = Main.settings.GenerateCol11;
+                if (i == 12) def = Main.settings.GenerateCol12;
+                if (i == 13) def = Main.settings.GenerateCol13;
+                if (i == 14) def = Main.settings.GenerateCol14;
+                if (i == 15) def = Main.settings.GenerateCol15;
+                if (i == 16) def = Main.settings.GenerateCol16;
+                if (i == 17) def = Main.settings.GenerateCol17;
+                if (i == 18) def = Main.settings.GenerateCol18;
+                if (i == 19) def = Main.settings.GenerateCol19;
+                if (i == 20) def = Main.settings.GenerateCol20;
+
+                if (i == 21) def = Main.settings.GenerateCol21;
+                if (i == 22) def = Main.settings.GenerateCol22;
+                if (i == 23) def = Main.settings.GenerateCol23;
+                if (i == 24) def = Main.settings.GenerateCol24;
+                if (i == 25) def = Main.settings.GenerateCol25;
+                if (i == 26) def = Main.settings.GenerateCol26;
+                if (i == 27) def = Main.settings.GenerateCol27;
+                if (i == 28) def = Main.settings.GenerateCol28;
+                if (i == 29) def = Main.settings.GenerateCol29;
+                if (i == 30) def = Main.settings.GenerateCol30;
 
                 if (def != "")
                 {

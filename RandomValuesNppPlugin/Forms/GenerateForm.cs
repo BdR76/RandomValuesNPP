@@ -9,6 +9,8 @@ namespace RandomValuesNppPlugin
 {
     public partial class GenerateForm : Form
     {
+        private const int MAX_COLUMNS = 30;
+
         public List<RandomValueListItem> listRandomValues;
 
         private BindingSource listSource;
@@ -35,10 +37,11 @@ namespace RandomValuesNppPlugin
             //};
 
             listRandomValues = new List<RandomValueListItem>();
-            for (var i = 1; i <= 10; i++)
+            for (var i = 1; i <= MAX_COLUMNS; i++)
             {
                 String def = "";
 
+                // I know this code is ugly, please submit PR if you know how to store a List<string> as a settings-list using the current Settings/SettingsBase
                 if (i == 1)  def = settings.GenerateCol01;
                 if (i == 2)  def = settings.GenerateCol02;
                 if (i == 3)  def = settings.GenerateCol03;
@@ -49,6 +52,28 @@ namespace RandomValuesNppPlugin
                 if (i == 8)  def = settings.GenerateCol08;
                 if (i == 9)  def = settings.GenerateCol09;
                 if (i == 10) def = settings.GenerateCol10;
+
+                if (i == 11) def = settings.GenerateCol11;
+                if (i == 12) def = settings.GenerateCol12;
+                if (i == 13) def = settings.GenerateCol13;
+                if (i == 14) def = settings.GenerateCol14;
+                if (i == 15) def = settings.GenerateCol15;
+                if (i == 16) def = settings.GenerateCol16;
+                if (i == 17) def = settings.GenerateCol17;
+                if (i == 18) def = settings.GenerateCol18;
+                if (i == 19) def = settings.GenerateCol19;
+                if (i == 20) def = settings.GenerateCol20;
+
+                if (i == 21) def = settings.GenerateCol21;
+                if (i == 22) def = settings.GenerateCol22;
+                if (i == 23) def = settings.GenerateCol23;
+                if (i == 24) def = settings.GenerateCol24;
+                if (i == 25) def = settings.GenerateCol25;
+                if (i == 26) def = settings.GenerateCol26;
+                if (i == 27) def = settings.GenerateCol27;
+                if (i == 28) def = settings.GenerateCol28;
+                if (i == 29) def = settings.GenerateCol29;
+                if (i == 30) def = settings.GenerateCol30;
 
                 if (def != "")
                 {
@@ -121,7 +146,7 @@ namespace RandomValuesNppPlugin
         private void menuitemAddRow_Click(object sender, EventArgs e)
         {
             // Prevent users from adding more than the ten supported rows
-            if (listRandomValues.Count >= 10) return;
+            if (listRandomValues.Count >= MAX_COLUMNS) return;
 
             // example based on current year
             var yr = DateTime.Now.Year;
@@ -243,7 +268,7 @@ namespace RandomValuesNppPlugin
             Main.settings.GenerateType = cmbOutputType.SelectedIndex;
             Main.settings.GenerateAmount = Convert.ToInt32(numAmount.Value);
 
-            for (var i = 1; i <= 10; i++)
+            for (var i = 1; i <= MAX_COLUMNS; i++)
             {
                 var def = "";
                 if (i <= listRandomValues.Count)
@@ -259,6 +284,7 @@ namespace RandomValuesNppPlugin
                     def = String.Format("\"{0}\" {1}{2}{3}{4}", listRandomValues[i - 1].Description, listRandomValues[i - 1].DataType.ToString().ToLower(), msk, rng, opt);
                 }
 
+                // I know this code is ugly, please submit PR if you know how to store a List<string> as a settings-list using the current Settings/SettingsBase
                 if (i == 1) Main.settings.GenerateCol01 = def;
                 if (i == 2) Main.settings.GenerateCol02 = def;
                 if (i == 3) Main.settings.GenerateCol03 = def;
@@ -269,6 +295,28 @@ namespace RandomValuesNppPlugin
                 if (i == 8) Main.settings.GenerateCol08 = def;
                 if (i == 9) Main.settings.GenerateCol09 = def;
                 if (i == 10) Main.settings.GenerateCol10 = def;
+
+                if (i == 11) Main.settings.GenerateCol11 = def;
+                if (i == 12) Main.settings.GenerateCol12 = def;
+                if (i == 13) Main.settings.GenerateCol13 = def;
+                if (i == 14) Main.settings.GenerateCol14 = def;
+                if (i == 15) Main.settings.GenerateCol15 = def;
+                if (i == 16) Main.settings.GenerateCol16 = def;
+                if (i == 17) Main.settings.GenerateCol17 = def;
+                if (i == 18) Main.settings.GenerateCol18 = def;
+                if (i == 19) Main.settings.GenerateCol19 = def;
+                if (i == 20) Main.settings.GenerateCol20 = def;
+
+                if (i == 21) Main.settings.GenerateCol21 = def;
+                if (i == 22) Main.settings.GenerateCol22 = def;
+                if (i == 23) Main.settings.GenerateCol23 = def;
+                if (i == 24) Main.settings.GenerateCol24 = def;
+                if (i == 25) Main.settings.GenerateCol25 = def;
+                if (i == 26) Main.settings.GenerateCol26 = def;
+                if (i == 27) Main.settings.GenerateCol27 = def;
+                if (i == 28) Main.settings.GenerateCol28 = def;
+                if (i == 29) Main.settings.GenerateCol29 = def;
+                if (i == 30) Main.settings.GenerateCol30 = def;
             };
 
             // extra settings
