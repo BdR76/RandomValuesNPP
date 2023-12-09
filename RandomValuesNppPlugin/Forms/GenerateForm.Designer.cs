@@ -55,11 +55,11 @@
             this.lblTablename = new System.Windows.Forms.Label();
             this.txtTablename = new System.Windows.Forms.TextBox();
             this.pnlSQL = new System.Windows.Forms.Panel();
+            this.cmbSQLtype = new System.Windows.Forms.ComboBox();
             this.numBatch = new System.Windows.Forms.NumericUpDown();
             this.lblBatch = new System.Windows.Forms.Label();
             this.lblSQLtype = new System.Windows.Forms.Label();
             this.numAmount = new System.Windows.Forms.NumericUpDown();
-            this.cmbSQLtype = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridRandomValues)).BeginInit();
             this.ctxmnuGrid.SuspendLayout();
             this.pnlSQL.SuspendLayout();
@@ -318,6 +318,7 @@
             // 
             // pnlSQL
             // 
+            this.pnlSQL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pnlSQL.Controls.Add(this.cmbSQLtype);
             this.pnlSQL.Controls.Add(this.numBatch);
             this.pnlSQL.Controls.Add(this.lblBatch);
@@ -326,6 +327,19 @@
             this.pnlSQL.Name = "pnlSQL";
             this.pnlSQL.Size = new System.Drawing.Size(367, 29);
             this.pnlSQL.TabIndex = 10;
+            // 
+            // cmbSQLtype
+            // 
+            this.cmbSQLtype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSQLtype.FormattingEnabled = true;
+            this.cmbSQLtype.Items.AddRange(new object[] {
+            "MySQL",
+            "MS-SQL",
+            "PostgreSQL"});
+            this.cmbSQLtype.Location = new System.Drawing.Point(194, 0);
+            this.cmbSQLtype.Name = "cmbSQLtype";
+            this.cmbSQLtype.Size = new System.Drawing.Size(92, 21);
+            this.cmbSQLtype.TabIndex = 12;
             // 
             // numBatch
             // 
@@ -364,6 +378,7 @@
             // 
             // numAmount
             // 
+            this.numAmount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.numAmount.Location = new System.Drawing.Point(82, 229);
             this.numAmount.Maximum = new decimal(new int[] {
             1000000,
@@ -379,23 +394,11 @@
             0,
             0});
             // 
-            // cmbSQLtype
-            // 
-            this.cmbSQLtype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbSQLtype.FormattingEnabled = true;
-            this.cmbSQLtype.Items.AddRange(new object[] {
-            "MySQL",
-            "MS-SQL",
-            "PostgreSQL"});
-            this.cmbSQLtype.Location = new System.Drawing.Point(194, 0);
-            this.cmbSQLtype.Name = "cmbSQLtype";
-            this.cmbSQLtype.Size = new System.Drawing.Size(92, 21);
-            this.cmbSQLtype.TabIndex = 12;
-            // 
             // GenerateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(749, 261);
             this.Controls.Add(this.numAmount);
             this.Controls.Add(this.pnlSQL);

@@ -129,14 +129,15 @@ namespace RandomValuesNppPlugin
             // add random example
             string[] examples = new string[] {
                 "Password|String|XXXXYYYYZZZZ9999||case=mixed,mixmask=true,pwsafe=true",
-                string.Format("Birth date|DateTime|dd-MM-yyyy|{0}..{1}|", yr-50, yr-10),
-                "Sex|String||M,F|",
+                string.Format("Birth date|DateTime|dd-MM-yyyy|{0}..{1}|", yr-65, yr-18),
+                "Sex|String||Male,Female|",
                 "Length cm|Integer||140..200|empty=5",
                 "Weight kg|Decimal||50.0..100.0|empty=5",
                 "Postal code|String|9999XX||",
-                string.Format("Follow-up date|DateTime|dd-MM-yyyy|{0}-01..{0}-05|", yr),
-                "Device unit price|Decimal||50.00..300.00|",
-                "Medical device|String|||width=15"
+                string.Format("Follow-up date|DateTime|M/d/yyyy|{0}-01..{0}-05|", yr),
+                "Glucose BL mmol/l|Decimal||3,9..5,6|",
+                "Lab verified 75perc|String||Yes,Yes,Yes,No|",
+                "Remarks free text|String|||width=50"
             };
 
             // next example

@@ -124,7 +124,7 @@ namespace RandomValuesNppPlugin
         private static void GenerateSQL(StringBuilder sb, List<RandomValue> list, int amount)
         {
             int SQLansi = Main.settings.SQLansi;
-            var TableName = Main.settings.GenerateTablename;
+            var TABLE_NAME = Main.settings.GenerateTablename;
             string recidname = "_record_number";
             string SQL_TYPE = (Main.settings.SQLansi <= 1 ? (Main.settings.SQLansi == 0 ? "mySQL" : "MS-SQL") : "PostgreSQL");
 
@@ -134,7 +134,7 @@ namespace RandomValuesNppPlugin
             foreach (var str in comment) sb.Append(string.Format("-- {0}\r\n", str));
             sb.Append(string.Format("-- SQL type: {0}\r\n", SQL_TYPE));
             sb.Append("-- -------------------------------------\r\n");
-            sb.Append(string.Format("CREATE TABLE {0}(\r\n\t", TableName));
+            sb.Append(string.Format("CREATE TABLE {0}(\r\n\t", TABLE_NAME));
 
             switch (Main.settings.SQLansi)
             {
@@ -209,20 +209,20 @@ namespace RandomValuesNppPlugin
                             {
                                 enumvals = enumvals.Replace("\"", ""); // no quotes
                             };
-                            enumcols1 += string.Format("ALTER TABLE {0} ADD CONSTRAINT {1} CHECK({2}{3} IN ({4}));\r\n", TableName, chkname, sqlname, mscolate, enumvals);
+                            enumcols1 += string.Format("ALTER TABLE {0} ADD CONSTRAINT {1} CHECK({2}{3} IN ({4}));\r\n", TABLE_NAME, chkname, sqlname, mscolate, enumvals);
                             break;
                         // NOTE: Could also use CONSTRAINT..CHECK for both MS-SQL and PostgreSQL,
                         // even though PostgreSQL supports custom enum TYPE but it is less flexible than just CONSTRAINT..CHECK
                         case 2: // PostgreSQL
                             var postenum = SQLSafeName("enum_" + list[r].Description);
                             enumcols1 += string.Format("CREATE TYPE {0} AS ENUM ('{1}');\r\n", postenum, enumvals.Replace("\"", "'"));
-                            enumcols2 += string.Format("ALTER TABLE {0} ALTER COLUMN {1} TYPE {2} USING ({1}::text)::{2};\r\n", TableName, sqlname, postenum);
+                            enumcols2 += string.Format("ALTER TABLE {0} ALTER COLUMN {1} TYPE {2} USING ({1}::text)::{2};\r\n", TABLE_NAME, sqlname, postenum);
                             // for PostgreSQL, insert statements on ENUM column must always use quotes, so ('0', '1', '2') instead of (0, 1, 2)
                             if (list[r].DataType == RandomDataType.Integer) list[r].DataType = RandomDataType.String;
                             break;
                         default: // 0=mySQL
                             enumvals = enumvals.Replace("\"", "'"); // ENUM on mySQL is always treated as string value
-                            enumcols1 += string.Format("ALTER TABLE {0} MODIFY COLUMN {1} ENUM('{2}');\r\n", TableName, sqlname, enumvals);
+                            enumcols1 += string.Format("ALTER TABLE {0} MODIFY COLUMN {1} ENUM('{2}');\r\n", TABLE_NAME, sqlname, enumvals);
                             // for mySQL, insert statements on ENUM column must always use quotes, so ('0', '1', '2') instead of (0, 1, 2)
                             if (list[r].DataType == RandomDataType.Integer) list[r].DataType = RandomDataType.String;
                             break;
@@ -252,14 +252,14 @@ namespace RandomValuesNppPlugin
             switch (Main.settings.SQLansi)
             {
                 case 1:
-                    sb.Append(string.Format("EXEC sp_addextendedproperty 'Comment', N'{1}', N'SCHEMA', DBO, N'TABLE', {0}\r\nGO\r\n", TableName, tabcomment)); // MS-SQL
+                    sb.Append(string.Format("EXEC sp_addextendedproperty 'Comment', N'{1}', N'SCHEMA', DBO, N'TABLE', {0}\r\nGO\r\n", TABLE_NAME, tabcomment)); // MS-SQL
                     //sb.Append(string.Format("EXEC sys.sp_addextendedproperty @name = N'comment', @value = N'{0}' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{1}'\r\nGO\r\n", coment, tablemmaf)); // MS-SQL alt
                     break;
                 case 2:
-                    sb.Append(string.Format("COMMENT ON TABLE {0} IS '{1}';\r\n", TableName, tabcomment)); // PostgreSQL
+                    sb.Append(string.Format("COMMENT ON TABLE {0} IS '{1}';\r\n", TABLE_NAME, tabcomment)); // PostgreSQL
                     break;
                 default: // 0=mySQL
-                    sb.Append(string.Format("ALTER TABLE {0} COMMENT '{1}';\r\n", TableName, tabcomment)); // mySQL
+                    sb.Append(string.Format("ALTER TABLE {0} COMMENT '{1}';\r\n", TABLE_NAME, tabcomment)); // mySQL
                     break;
             }
 
@@ -273,12 +273,12 @@ namespace RandomValuesNppPlugin
                     maxrec = i + MaxSQLrows;
                     maxrec = (maxrec > amount ? amount : maxrec);
 
-                    sb.Append("-- -------------------------------------\r\n");
+                    sb.Append("\r\n-- -------------------------------------\r\n");
                     sb.Append(String.Format("-- insert records {0} - {1}\r\n", (i+1), maxrec));
                     sb.Append("-- -------------------------------------\r\n");
-                    sb.Append(string.Format("insert into {0}(\r\n", TableName));
+                    sb.Append(string.Format("INSERT INTO {0}(\r\n", TABLE_NAME));
                     sb.Append(cols);
-                    sb.Append("\r\n) values");
+                    sb.Append("\r\n) VALUES");
                 }
 
                 sb.Append("\r\n(");
