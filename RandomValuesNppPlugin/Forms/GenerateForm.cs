@@ -75,7 +75,7 @@ namespace RandomValuesNppPlugin
             // extra settings
             txtTablename.Text = settings.GenerateTablename;
 
-            var idx = Main.settings.SQLansi;
+            var idx = Main.settings.SQLtype;
             cmbSQLtype.SelectedIndex = (idx >= 0 && idx <= 2 ? idx : 0);
 
             numBatch.Value = settings.GenerateBatch;
@@ -273,7 +273,7 @@ namespace RandomValuesNppPlugin
 
             // extra settings
             Main.settings.GenerateTablename = txtTablename.Text;
-            Main.settings.SQLansi = cmbSQLtype.SelectedIndex;
+            Main.settings.SQLtype = cmbSQLtype.SelectedIndex;
             Main.settings.GenerateBatch = Convert.ToInt32(numBatch.Value);
 
             // save to ini file

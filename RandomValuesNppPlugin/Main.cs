@@ -181,8 +181,22 @@ namespace Kbg.NppPluginNET
             {
                 // generate values
                 var s = RandomValues.Generate();
-                editor.ReplaceSel(s);
-                if (settings.LineFeed) editor.NewLine();
+
+                // create new file
+                INotepadPPGateway notepad = new NotepadPPGateway();
+                notepad.FileNew();
+
+                // set new text
+                editor.SetText(s);
+                if (s.Length < Main.settings.AutoSyntaxLimit)
+                {
+                    //if (Main.settings.GenerateType == 0) ?; // Comma separated(CSV)
+                    //if (Main.settings.GenerateType == 1) ?; // Tab separated
+                    //if (Main.settings.GenerateType == 2) ?; // Semi - colon separated
+                    if (Main.settings.GenerateType == 3) notepad.SetCurrentLanguage(LangType.L_SQL); // SQL
+                    if (Main.settings.GenerateType == 4) notepad.SetCurrentLanguage(LangType.L_XML); // XML
+                    if (Main.settings.GenerateType == 5) notepad.SetCurrentLanguage(LangType.L_JSON); // JSON
+                }
             };
         }
 

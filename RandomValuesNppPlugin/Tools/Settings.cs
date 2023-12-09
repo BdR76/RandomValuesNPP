@@ -36,8 +36,11 @@ namespace Kbg.NppPluginNET.Tools
 
         // TODO: generate columns are limited to 10 because at the moment, a settings item cannot be of type TList<string>
 
+        [Description("Automatically apply syntax highlighting to SQL, XML or JSON result, only when it's smaller than this size. Prevent Notepad++ from freezing on large files."), Category("RandomGenerate"), DefaultValue(1024 * 1024)]
+        public int AutoSyntaxLimit { get; set; }
+
         [Description("Generate SQL for database type mySQL, MS-SQL or PostgreSQL (0, 1 or 2)."), Category("RandomGenerate"), DefaultValue(0)]
-        public int SQLansi { get; set; }
+        public int SQLtype { get; set; }
 
         [Description("Generate tablename or recordname, for SQL, XML and JSON"), Category("RandomGenerate"), DefaultValue("Tablename")]
         public String GenerateTablename { get; set; }

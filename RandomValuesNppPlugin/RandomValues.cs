@@ -1,6 +1,7 @@
 ﻿using Kbg.NppPluginNET;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -123,10 +124,10 @@ namespace RandomValuesNppPlugin
         }
         private static void GenerateSQL(StringBuilder sb, List<RandomValue> list, int amount)
         {
-            int SQLansi = Main.settings.SQLansi;
+            int SQLansi = Main.settings.SQLtype;
             var TABLE_NAME = Main.settings.GenerateTablename;
             string recidname = "_record_number";
-            string SQL_TYPE = (Main.settings.SQLansi <= 1 ? (Main.settings.SQLansi == 0 ? "mySQL" : "MS-SQL") : "PostgreSQL");
+            string SQL_TYPE = (Main.settings.SQLtype <= 1 ? (Main.settings.SQLtype == 0 ? "mySQL" : "MS-SQL") : "PostgreSQL");
 
             // default comment
             sb.Append("-- -------------------------------------\r\n");
@@ -136,7 +137,7 @@ namespace RandomValuesNppPlugin
             sb.Append("-- -------------------------------------\r\n");
             sb.Append(string.Format("CREATE TABLE {0}(\r\n\t", TABLE_NAME));
 
-            switch (Main.settings.SQLansi)
+            switch (Main.settings.SQLtype)
             {
                 case 1:
                     sb.Append(string.Format("[{0}] int IDENTITY(1,1) PRIMARY KEY,\r\n\t", recidname)); // MS-SQL
@@ -160,7 +161,7 @@ namespace RandomValuesNppPlugin
                 // determine sql datatype
                 var sqltype = "varchar";
                 if (list[r].DataType == RandomDataType.Integer) sqltype = "integer";
-                if (list[r].DataType == RandomDataType.DateTime) sqltype = (Main.settings.SQLansi < 2 ? "datetime" : "timestamp"); // mySQL/MS-SQL = datetime, PostgreSQL=timestamp
+                if (list[r].DataType == RandomDataType.DateTime) sqltype = (Main.settings.SQLtype < 2 ? "datetime" : "timestamp"); // mySQL/MS-SQL = datetime, PostgreSQL=timestamp
                 if (list[r].DataType == RandomDataType.Guid) sqltype = "varchar(36)";
                 if (list[r].DataType == RandomDataType.Decimal)
                 {
@@ -191,8 +192,8 @@ namespace RandomValuesNppPlugin
                 // build SQL for Enum columns
                 if ( (list[r].DataType == RandomDataType.String) && (list[r].ListRange != null) )
                 {
-                    var enumvals = string.Join("\", \"", list[r].ListRange).Replace("'", "''");
-                    switch (Main.settings.SQLansi)
+                    var enumvals = string.Join("\", \"", list[r].ListRange.Distinct()).Replace("'", "''");
+                    switch (Main.settings.SQLtype)
                     {
                         case 1: // MS-SQL
                                 //case 2: // PostgreSQL
@@ -203,7 +204,7 @@ namespace RandomValuesNppPlugin
                             if (list[r].DataType == RandomDataType.String)
                             {
                                 enumvals = string.Format("'{0}'", enumvals.Replace("\"", "'")); // use quotes
-                                if (Main.settings.SQLansi == 1) mscolate = " COLLATE Latin1_General_CS_AS"; // MS-SQL case-sensitive
+                                if (Main.settings.SQLtype == 1) mscolate = " COLLATE Latin1_General_CS_AS"; // MS-SQL case-sensitive
                             }
                             else
                             {
@@ -239,7 +240,7 @@ namespace RandomValuesNppPlugin
             };
 
             // primary key definition for mySQL
-            if (Main.settings.SQLansi == 0) sb.Append(string.Format(",\r\n\tprimary key(`{0}`)", recidname));
+            if (Main.settings.SQLtype == 0) sb.Append(string.Format(",\r\n\tprimary key(`{0}`)", recidname));
 
             sb.Append("\r\n);\r\n");
 
@@ -249,7 +250,7 @@ namespace RandomValuesNppPlugin
             // add comment table
             var tabcomment = string.Join("\r\n", comment).Replace("'", "''");
             sb.Append("-- Table comment\r\n");
-            switch (Main.settings.SQLansi)
+            switch (Main.settings.SQLtype)
             {
                 case 1:
                     sb.Append(string.Format("EXEC sp_addextendedproperty 'Comment', N'{1}', N'SCHEMA', DBO, N'TABLE', {0}\r\nGO\r\n", TABLE_NAME, tabcomment)); // MS-SQL
@@ -323,10 +324,10 @@ namespace RandomValuesNppPlugin
             // use brackets or quotes only when absolutely necessary
             if (res.Contains(" ") || res.Contains("'"))
             {
-                if (Main.settings.SQLansi == 1) // MS-SQL
+                if (Main.settings.SQLtype == 1) // MS-SQL
                     res = string.Format("[{0}]", res);
                 else
-                    res = string.Format("{1}{0}{1}", res, (Main.settings.SQLansi == 0 ? "`" : "\""));
+                    res = string.Format("{1}{0}{1}", res, (Main.settings.SQLtype == 0 ? "`" : "\""));
             }
 
             return res;
@@ -389,8 +390,10 @@ namespace RandomValuesNppPlugin
                 {
                     var val = GetValidXMLValue(list[r].NextValue());
 
-                    var str = string.Format("\t\t<{0}>{1}</{0}>\r\n", list[r].Description, val);
-                    sb.Append(str);
+                    if (val == "")
+                        sb.Append(string.Format("\t\t<{0}/>\r\n", list[r].Description));
+                    else
+                        sb.Append(string.Format("\t\t<{0}>{1}</{0}>\r\n", list[r].Description, val));
                 }
                 sb.Append(string.Format("\t</{0}>\r\n", Main.settings.GenerateTablename));
             };

@@ -71,7 +71,7 @@
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(662, 226);
+            this.btnOk.Location = new System.Drawing.Point(665, 310);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 1;
@@ -83,7 +83,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(568, 226);
+            this.btnCancel.Location = new System.Drawing.Point(571, 310);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 0;
@@ -102,7 +102,7 @@
             "SQL",
             "XML",
             "JSON"});
-            this.cmbOutputType.Location = new System.Drawing.Point(82, 201);
+            this.cmbOutputType.Location = new System.Drawing.Point(82, 285);
             this.cmbOutputType.Name = "cmbOutputType";
             this.cmbOutputType.Size = new System.Drawing.Size(178, 21);
             this.cmbOutputType.TabIndex = 7;
@@ -112,7 +112,7 @@
             // 
             this.lblOutputType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblOutputType.AutoSize = true;
-            this.lblOutputType.Location = new System.Drawing.Point(14, 204);
+            this.lblOutputType.Location = new System.Drawing.Point(14, 288);
             this.lblOutputType.Name = "lblOutputType";
             this.lblOutputType.Size = new System.Drawing.Size(62, 13);
             this.lblOutputType.TabIndex = 6;
@@ -122,7 +122,7 @@
             // 
             this.lblAmount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblAmount.AutoSize = true;
-            this.lblAmount.Location = new System.Drawing.Point(14, 232);
+            this.lblAmount.Location = new System.Drawing.Point(14, 316);
             this.lblAmount.Name = "lblAmount";
             this.lblAmount.Size = new System.Drawing.Size(43, 13);
             this.lblAmount.TabIndex = 2;
@@ -156,7 +156,7 @@
             this.gridRandomValues.Location = new System.Drawing.Point(14, 12);
             this.gridRandomValues.Name = "gridRandomValues";
             this.gridRandomValues.RowHeadersVisible = false;
-            this.gridRandomValues.Size = new System.Drawing.Size(694, 173);
+            this.gridRandomValues.Size = new System.Drawing.Size(697, 257);
             this.gridRandomValues.TabIndex = 6;
             this.gridRandomValues.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridRandomValues_CellContentClick);
             // 
@@ -257,7 +257,7 @@
             // 
             this.btnMoveUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMoveUp.Image = global::RandomValuesNppPlugin.Properties.Resources.btn_move_up;
-            this.btnMoveUp.Location = new System.Drawing.Point(714, 12);
+            this.btnMoveUp.Location = new System.Drawing.Point(717, 12);
             this.btnMoveUp.Name = "btnMoveUp";
             this.btnMoveUp.Size = new System.Drawing.Size(26, 24);
             this.btnMoveUp.TabIndex = 2;
@@ -268,7 +268,7 @@
             // 
             this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAdd.Image = global::RandomValuesNppPlugin.Properties.Resources.btn_add;
-            this.btnAdd.Location = new System.Drawing.Point(714, 42);
+            this.btnAdd.Location = new System.Drawing.Point(717, 42);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(26, 24);
             this.btnAdd.TabIndex = 3;
@@ -279,7 +279,7 @@
             // 
             this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDelete.Image = global::RandomValuesNppPlugin.Properties.Resources.btn_delete;
-            this.btnDelete.Location = new System.Drawing.Point(714, 72);
+            this.btnDelete.Location = new System.Drawing.Point(717, 72);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(26, 24);
             this.btnDelete.TabIndex = 4;
@@ -290,7 +290,7 @@
             // 
             this.btnMoveDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMoveDown.Image = global::RandomValuesNppPlugin.Properties.Resources.btn_move_down;
-            this.btnMoveDown.Location = new System.Drawing.Point(714, 102);
+            this.btnMoveDown.Location = new System.Drawing.Point(717, 102);
             this.btnMoveDown.Name = "btnMoveDown";
             this.btnMoveDown.Size = new System.Drawing.Size(26, 24);
             this.btnMoveDown.TabIndex = 5;
@@ -301,7 +301,7 @@
             // 
             this.lblTablename.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblTablename.AutoSize = true;
-            this.lblTablename.Location = new System.Drawing.Point(280, 204);
+            this.lblTablename.Location = new System.Drawing.Point(280, 288);
             this.lblTablename.Name = "lblTablename";
             this.lblTablename.Size = new System.Drawing.Size(60, 13);
             this.lblTablename.TabIndex = 2;
@@ -310,7 +310,7 @@
             // txtTablename
             // 
             this.txtTablename.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtTablename.Location = new System.Drawing.Point(346, 201);
+            this.txtTablename.Location = new System.Drawing.Point(346, 285);
             this.txtTablename.Name = "txtTablename";
             this.txtTablename.Size = new System.Drawing.Size(174, 20);
             this.txtTablename.TabIndex = 8;
@@ -323,7 +323,7 @@
             this.pnlSQL.Controls.Add(this.numBatch);
             this.pnlSQL.Controls.Add(this.lblBatch);
             this.pnlSQL.Controls.Add(this.lblSQLtype);
-            this.pnlSQL.Location = new System.Drawing.Point(152, 228);
+            this.pnlSQL.Location = new System.Drawing.Point(152, 312);
             this.pnlSQL.Name = "pnlSQL";
             this.pnlSQL.Size = new System.Drawing.Size(367, 29);
             this.pnlSQL.TabIndex = 10;
@@ -379,7 +379,7 @@
             // numAmount
             // 
             this.numAmount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numAmount.Location = new System.Drawing.Point(82, 229);
+            this.numAmount.Location = new System.Drawing.Point(82, 313);
             this.numAmount.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -399,7 +399,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(749, 261);
+            this.ClientSize = new System.Drawing.Size(752, 345);
             this.Controls.Add(this.numAmount);
             this.Controls.Add(this.pnlSQL);
             this.Controls.Add(this.btnMoveDown);
