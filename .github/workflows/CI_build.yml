@@ -13,10 +13,10 @@ jobs:
 
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v3.1.0
+      uses: actions/checkout@v3.5.2
 
     - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.1.3
+      uses: microsoft/setup-msbuild@v1.3.1
 
     - name: MSBuild of solution
       run: msbuild RandomValuesNppPlugin.sln /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}" /m /verbosity:minimal
