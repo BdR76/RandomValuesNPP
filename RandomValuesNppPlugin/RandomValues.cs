@@ -70,6 +70,17 @@ namespace RandomValuesNppPlugin
             return list;
         }
 
+        public static List<String> ScriptInfo(int amount)
+        {
+            List<String> list = new List<String>();
+
+            list.Add(string.Format("Notepad++ Random Values plug-in v{0}", Main.GetVersion()));
+            list.Add(string.Format("Generate records: {0}", amount));
+            list.Add(string.Format("Date: {0}", DateTime.Now.ToString("dd-MMM-yyyy HH:mm")));
+
+            return list;
+        }
+
         private static void GenerateCSV(StringBuilder sb, List<RandomValue> list, int amount, char sep)
         {
             // column headers
@@ -117,10 +128,10 @@ namespace RandomValuesNppPlugin
             string recidname = "_record_number";
             string SQL_TYPE = (Main.settings.SQLansi <= 1 ? (Main.settings.SQLansi == 0 ? "mySQL" : "MS-SQL") : "PostgreSQL");
 
+            // default comment
             sb.Append("-- -------------------------------------\r\n");
-            sb.Append(string.Format("-- Notepad++ Random Values plug-in v{0}\r\n", Main.GetVersion()));
-            sb.Append(string.Format("-- Date: {0}\r\n", DateTime.Now.ToString("dd-MMM-yyyy HH:mm")));
-            sb.Append(string.Format("-- Records: {0}\r\n", amount));
+            List<String> comment = ScriptInfo(amount);
+            foreach (var str in comment) sb.Append(string.Format("-- {0}\r\n", str));
             sb.Append(string.Format("-- SQL type: {0}\r\n", SQL_TYPE));
             sb.Append("-- -------------------------------------\r\n");
             sb.Append(string.Format("CREATE TABLE {0}(\r\n\t", TableName));
@@ -138,11 +149,13 @@ namespace RandomValuesNppPlugin
                     break;
             }
             var cols = "\t";
+            var enumcols1 = "";
+            var enumcols2 = "";
 
             for (var r = 0; r < list.Count; r++)
             {
                 // determine sql column name -> mySQL = `colname`, MS-SQL = [colname], PostgreSQL = "colname"
-                string sqlname = string.Format((Main.settings.SQLansi <= 1 ? (Main.settings.SQLansi == 0 ? "`{0}`" : "[{0}]") : "\"{0}\""), list[r].Description);
+                string sqlname = SQLSafeName(list[r].Description);
 
                 // determine sql datatype
                 var sqltype = "varchar";
@@ -175,6 +188,47 @@ namespace RandomValuesNppPlugin
                     list[r].Mask = masknew.Trim();
                 }
 
+                // build SQL for Enum columns
+                if ( (list[r].DataType == RandomDataType.String) && (list[r].ListRange != null) )
+                {
+                    var enumvals = string.Join("\", \"", list[r].ListRange).Replace("'", "''");
+                    switch (Main.settings.SQLansi)
+                    {
+                        case 1: // MS-SQL
+                                //case 2: // PostgreSQL
+                                // constrains name is based on column name, for example "[test]" -> "[CHK_test]"
+                            var chkname = SQLSafeName("CHK_" + list[r].Description);
+                            var mscolate = "";
+                            // Constrains for string or integer values
+                            if (list[r].DataType == RandomDataType.String)
+                            {
+                                enumvals = string.Format("'{0}'", enumvals.Replace("\"", "'")); // use quotes
+                                if (Main.settings.SQLansi == 1) mscolate = " COLLATE Latin1_General_CS_AS"; // MS-SQL case-sensitive
+                            }
+                            else
+                            {
+                                enumvals = enumvals.Replace("\"", ""); // no quotes
+                            };
+                            enumcols1 += string.Format("ALTER TABLE {0} ADD CONSTRAINT {1} CHECK({2}{3} IN ({4}));\r\n", TableName, chkname, sqlname, mscolate, enumvals);
+                            break;
+                        // NOTE: Could also use CONSTRAINT..CHECK for both MS-SQL and PostgreSQL,
+                        // even though PostgreSQL supports custom enum TYPE but it is less flexible than just CONSTRAINT..CHECK
+                        case 2: // PostgreSQL
+                            var postenum = SQLSafeName("enum_" + list[r].Description);
+                            enumcols1 += string.Format("CREATE TYPE {0} AS ENUM ('{1}');\r\n", postenum, enumvals.Replace("\"", "'"));
+                            enumcols2 += string.Format("ALTER TABLE {0} ALTER COLUMN {1} TYPE {2} USING ({1}::text)::{2};\r\n", TableName, sqlname, postenum);
+                            // for PostgreSQL, insert statements on ENUM column must always use quotes, so ('0', '1', '2') instead of (0, 1, 2)
+                            if (list[r].DataType == RandomDataType.Integer) list[r].DataType = RandomDataType.String;
+                            break;
+                        default: // 0=mySQL
+                            enumvals = enumvals.Replace("\"", "'"); // ENUM on mySQL is always treated as string value
+                            enumcols1 += string.Format("ALTER TABLE {0} MODIFY COLUMN {1} ENUM('{2}');\r\n", TableName, sqlname, enumvals);
+                            // for mySQL, insert statements on ENUM column must always use quotes, so ('0', '1', '2') instead of (0, 1, 2)
+                            if (list[r].DataType == RandomDataType.Integer) list[r].DataType = RandomDataType.String;
+                            break;
+                    }
+                }
+
                 sb.Append(String.Format("{0} {1}", sqlname, sqltype));
                 cols += sqlname;
                 if (r < list.Count-1)
@@ -187,7 +241,27 @@ namespace RandomValuesNppPlugin
             // primary key definition for mySQL
             if (Main.settings.SQLansi == 0) sb.Append(string.Format(",\r\n\tprimary key(`{0}`)", recidname));
 
-            sb.Append("\r\n);\r\n\r\n");
+            sb.Append("\r\n);\r\n");
+
+            // add enumeration columns
+            if (enumcols1 != "") sb.Append(string.Format("-- Enumeration columns (optional)\r\n/*\r\n{0}{1}*/\r\n", enumcols1, enumcols2));
+
+            // add comment table
+            var tabcomment = string.Join("\r\n", comment).Replace("'", "''");
+            sb.Append("-- Table comment\r\n");
+            switch (Main.settings.SQLansi)
+            {
+                case 1:
+                    sb.Append(string.Format("EXEC sp_addextendedproperty 'Comment', N'{1}', N'SCHEMA', DBO, N'TABLE', {0}\r\nGO\r\n", TableName, tabcomment)); // MS-SQL
+                    //sb.Append(string.Format("EXEC sys.sp_addextendedproperty @name = N'comment', @value = N'{0}' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{1}'\r\nGO\r\n", coment, tablemmaf)); // MS-SQL alt
+                    break;
+                case 2:
+                    sb.Append(string.Format("COMMENT ON TABLE {0} IS '{1}';\r\n", TableName, tabcomment)); // PostgreSQL
+                    break;
+                default: // 0=mySQL
+                    sb.Append(string.Format("ALTER TABLE {0} COMMENT '{1}';\r\n", TableName, tabcomment)); // mySQL
+                    break;
+            }
 
             var maxrec = 0;
             var MaxSQLrows = Main.settings.GenerateBatch;
@@ -242,6 +316,22 @@ namespace RandomValuesNppPlugin
             };
         }
 
+        private static string SQLSafeName(string sqlname)
+        {
+            var res = sqlname;
+
+            // use brackets or quotes only when absolutely necessary
+            if (res.Contains(" ") || res.Contains("'"))
+            {
+                if (Main.settings.SQLansi == 1) // MS-SQL
+                    res = string.Format("[{0}]", res);
+                else
+                    res = string.Format("{1}{0}{1}", res, (Main.settings.SQLansi == 0 ? "`" : "\""));
+            }
+
+            return res;
+        }
+
         private static string GetValidXMLTagName(string xmlkey)
         {
             // replace invalid XML characters with space
@@ -282,9 +372,16 @@ namespace RandomValuesNppPlugin
                 list[r].Description = GetValidXMLTagName(list[r].Description);
             }
 
+            // XML root node
             sb.Append("<RandomValues>\r\n");
 
-            sb.Append(string.Format("\t<!-- {0} random node objects -->\r\n", amount));
+            // default comment
+            sb.Append("\t<!--\r\n");
+            List<String> comment = ScriptInfo(amount);
+            foreach (var str in comment) sb.Append(string.Format("\t{0}\r\n", str));
+            sb.Append("\t-->\r\n");
+
+            // random XML values
             for (var i = 0; i < amount; i++)
             {
                 sb.Append(string.Format("\t<{0}>\r\n", Main.settings.GenerateTablename));
