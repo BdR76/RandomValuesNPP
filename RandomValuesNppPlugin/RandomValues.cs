@@ -47,7 +47,7 @@ namespace RandomValuesNppPlugin
         private static List<RandomValue> GetRandomValueColumns()
         {
             var list = new List<RandomValue>();
-            for (var i = 1; i < 10; i++)
+            for (var i = 1; i <= 10; i++)
             {
                 String def = "";
 
