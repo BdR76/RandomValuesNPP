@@ -1,11 +1,14 @@
 RandomValues - Notepad++ plugin
 ===============================
-![Release version](https://img.shields.io/github/v/release/BdR76/RandomValuesNPP) ![GitHub all releases](https://img.shields.io/github/downloads/BdR76/RandomValuesNPP/total) ![GitHub latest release](https://img.shields.io/github/downloads/BdR76/RandomValuesNPP/latest/total)  
+![Release version](https://img.shields.io/github/v/release/BdR76/RandomValuesNPP) ![GitHub all releases](https://img.shields.io/github/downloads/BdR76/RandomValuesNPP/total) ![GitHub latest release](https://img.shields.io/github/downloads/BdR76/RandomValuesNPP/latest/total) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=BX57KU8MFTDHU)  
 RandomValues is a plug-in for Notepad++ for generating passwords or test data for database and app development, performance testing, designing reports etc.
 
 ![preview screenshot](/randomvalues_preview.png?raw=true "RandomValues plug-in preview")
 
 RandomValues is based on a prototype project [randomdata](http://bdrgames.nl/homepage/files/randomdata.html)
+
+**If you find the Random Values plug-in useful you can buy me a coffee!** ☕  
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=BX57KU8MFTDHU)
 
 How to install
 --------------

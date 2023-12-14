@@ -172,7 +172,7 @@ namespace RandomValuesNppPlugin
         private void btnDonate_Click(object sender, EventArgs e)
         {
             // Call the Process.Start method to open the default browser with a URL:
-            var url = "https://www.paypal.com/donate/?hosted_button_id=US5SMK2DC6TXE";
+            var url = "https://www.paypal.com/donate/?hosted_button_id=BX57KU8MFTDHU";
             System.Diagnostics.Process.Start(url);
         }
     }
