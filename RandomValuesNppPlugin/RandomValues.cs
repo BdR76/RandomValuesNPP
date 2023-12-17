@@ -98,7 +98,7 @@ namespace RandomValuesNppPlugin
         {
             List<String> list = new List<String>();
 
-            list.Add(string.Format("Notepad++ Random Values plug-in v{0}", Main.GetVersion()));
+            list.Add(string.Format("Notepad++ Random Values plug-in: v{0}", Main.GetVersion()));
             list.Add(string.Format("Generate records: {0}", amount));
             list.Add(string.Format("Date: {0}", DateTime.Now.ToString("dd-MMM-yyyy HH:mm")));
 
@@ -424,7 +424,6 @@ namespace RandomValuesNppPlugin
         }
         private static void GenerateJSON(StringBuilder sb, List<RandomValue> list, int amount)
         {
-
             // for JSON numeric format always use point decimals
             for (var r = 0; r < list.Count; r++)
             {
@@ -432,39 +431,46 @@ namespace RandomValuesNppPlugin
                 {
                     list[r].FloatFormat.NumberDecimalSeparator = ".";
                 }
+                // JSON names cannot contain double quote
+                list[r].Description = list[r].Description.Replace("\"", "\\\""); // \"  Double quote
             }
 
             // generate JSON header
             sb.Append("{\r\n");
-            sb.Append("\t\"RandomDataGenerator\":{\r\n");
-            sb.Append(string.Format("\t\t\"{0}\":[\r\n", Main.settings.GenerateTablename));
+
+            // JSON doesn't support comments, add as values
+            List<String> comment = ScriptInfo(amount);
+            foreach (var str in comment)
+            {
+                sb.Append(string.Format("\t\"{0}\",\r\n", str.Replace(": ", "\": \"")));
+            }
+
+            sb.Append(string.Format("\t\"{0}\":[\r\n", Main.settings.GenerateTablename));
 
             for (var i = 0; i < amount; i++)
             {
-                sb.Append("\t\t\t{");
+                sb.Append("\t\t{");
                 for (var r = 0; r < list.Count; r++)
                 {
                     // format next value, not quotes for numbers
-                    var str = list[r].NextValue();
+                    var str = list[r].NextValue().Replace("\"", "\\\""); // \"  Double quote
                     if ((str == "") || ((list[r].DataType != RandomDataType.Decimal) && (list[r].DataType != RandomDataType.Integer))) str = string.Format("\"{0}\"", str);
 
                     // apend and comma 
-                    var str2 = string.Format("\r\n\t\t\t\t\"{0}\": {1}", list[r].Description, str);
-                    sb.Append(str2);
+                    sb.Append(string.Format("\r\n\t\t\t\"{0}\": {1}", list[r].Description, str));
                     if (r < list.Count - 1)
                     {
                         sb.Append(",");
                     };
                 }
-                sb.Append("\r\n\t\t\t}");
+                sb.Append("\r\n\t\t}");
                 if (i < amount-1)
                 {
                     sb.Append(",");
                 };
                 sb.Append("\r\n");
             };
-            sb.Append("\t\t]\r\n");
-            sb.Append("\t}\r\n");
+            sb.Append("\t]\r\n");
             sb.Append("}\r\n");
         }
     }

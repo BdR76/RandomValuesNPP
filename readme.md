@@ -50,7 +50,7 @@ Examples for String text values.
     A  random vowel (AEIOU)
     B  random consonants (BCDFGHJKLMNPQRSTVWXYZ)
     9  random digit (0123456789)
-    H  random hexadecimal digit (0123456789ABCDEF)
+    F  random hexadecimal digit (0123456789ABCDEF)
     @  random symbol (!@#$%^&*+-)
     X  random letter (vowel or consonants)
     Y  random letter or digit
@@ -62,8 +62,8 @@ You can add a mask for the random values, depending on the datatype. Here are so
     ---------------------------------------------------------------------
     String     ababab99              For string value, generates "exakir97" etc.
     String     xxxyyyzz99            passwords, see below for extra options `MixMask`, `pwsafe` and `case`
-    DateTime   yyyy/MM/dd            datetime values, "2021/12/31" etc.
-    DateTime   dd-MM-yyyy HH:ss:mm   datetime values, "31-12-2021 23:59:59" etc.
+    DateTime   yyyy/MM/dd            datetime values, "2024/12/31" etc.
+    DateTime   dd-MM-yyyy HH:ss:mm   datetime values, "31-12-2024 23:59:59" etc.
     DateTime   HH:mm:ss              datetime values, just the time part
     Integer    -                     no mask supported
     Decimal    -                     no mask supported
@@ -86,10 +86,10 @@ Example of a range for integer values
 
 Example of a range for date values
 
-    2021..2022                Random date value between 2021-01-01 up to and including 2022-12-31
-    2021-06..2022-04          Random date value between 2021-06-01 up to and including 2022-04-30
-    2021-06-01..2021-07-01    Random date value between 2021-06-01 up to and including 2021-07-01
-    2021..2021                Random date value between 2021-01-01 up to and including 2021-12-31
+    2023..2024                Random date value between 2023-01-01 up to and including 2024-12-31
+    2023-06..2024-04          Random date value between 2023-06-01 up to and including 2024-04-30
+    2023-06-01..2023-07-01    Random date value between 2023-06-01 up to and including 2023-07-01
+    2023..2023                Random date value between 2023-01-01 up to and including 2023-12-31
 
 Example of a range for string values
 
@@ -143,7 +143,8 @@ History
 -------
 11-jul-2021 - first release upload to github  
 24-oct-2021 - v0.2 Various bug fixes and added to Plugins Admin  
-13-nov-2021 - v0.2.1 Fluent UI icons, extra SQL options, various bugfxes
+13-nov-2021 - v0.2.1 Fluent UI icons, extra SQL options, various bug fixes  
+17-dec-2023 - v0.3 PostgreSQL support, toolbar icon updated, various bug fixes
 
-BdR©2021 Free to use - send questions or comments: Bas de Reuver - bdr1976@gmail.com
+BdR©2023 Free to use - send questions or comments: Bas de Reuver - bdr1976@gmail.com
 

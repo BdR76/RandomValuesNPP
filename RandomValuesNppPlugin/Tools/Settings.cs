@@ -66,7 +66,7 @@ namespace Kbg.NppPluginNET.Tools
         [Description("Generate random values, definition column 1"), Category("RandomGenerateCols"), DefaultValue("\"Order ID\" integer {1001..9999}")]
         public String GenerateCol01 { get; set; }
 
-        [Description("Generate random values, definition column 2"), Category("RandomGenerateCols"), DefaultValue("\"Order date\" datetime(dd-MM-yyyy) {2020..2021}")]
+        [Description("Generate random values, definition column 2"), Category("RandomGenerateCols"), DefaultValue("\"Order date\" datetime(dd-MM-yyyy) {2023..2024}")]
         public String GenerateCol02 { get; set; }
 
         [Description("Generate random values, definition column 3"), Category("RandomGenerateCols"), DefaultValue("\"Order price\" decimal {10.0..99.9}")]

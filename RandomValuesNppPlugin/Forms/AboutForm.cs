@@ -14,9 +14,7 @@ namespace RandomValuesNppPlugin
         {
             InitializeComponent();
 
-            string ver = Main.GetVersion();
-            string suffix = string.Format("{0} ({1}bit)", ver, (IntPtr.Size * 8));
-            lblTitle.Text += suffix;
+            lblTitle.Text += Main.GetVersion();
 
             // tooltip initialization
             helperTip.SetToolTip(btnDonate, "Support this plug-in by buying me a coffee!");
@@ -60,7 +58,7 @@ namespace RandomValuesNppPlugin
         {
             // display easter egg icon on certain dates
             DateTime today = DateTime.Now.AddHours(-3); // day 'starts' in the morning and lasts after midnight (especially for new years eve etc.)
-            //DateTime today = new DateTime(2021, 12, 31); // testing
+            //DateTime today = new DateTime(2023, 12, 31); // testing
 
             string msg = "";
             string obj = "";
@@ -76,7 +74,7 @@ namespace RandomValuesNppPlugin
             }
             else
             {
-                int daymonth = (today.Month * 100 + today.Day);
+                int daymonth = today.Month * 100 + today.Day;
 
                 switch (daymonth)
                 {
@@ -102,10 +100,11 @@ namespace RandomValuesNppPlugin
             // initialization easter egg
             if (msg != "")
             {
-                string tip = String.Format("Happy {0}! You've found {1} ;)", msg, obj);
+                string tip = string.Format("Happy {0}! You've found {1} ;)", msg, obj);
                 helperTip.SetToolTip(picEasterEgg, tip);
                 picEasterEgg.Image = img;
                 picEasterEgg.Visible = true;
+                picEasterEgg.Tag = "1"; // today is day with actual easter egg
             }
         }
         //private void displayEasterEgg_old()
@@ -141,16 +140,14 @@ namespace RandomValuesNppPlugin
             if ((string)lbl.Tag == "1")
             {
                 urlcopy = "Bas de Reuver <bdr1976@gmail.com>";
-                url = string.Format("mailto:{0}?subject={1}", urlcopy, lblTitle.Text);
+                url = string.Format("mailto:{0}?subject={1} ({2}bit)", urlcopy, lblTitle.Text, (IntPtr.Size * 8));
                 url = url.Replace(" ", "%20");
             }
 
             if (e.Button == MouseButtons.Right)
             {
                 Clipboard.SetText(urlcopy); // urlcopy is e-mai address without "mailto:.."
-            }
-            else
-            {
+            } else {
                 // Change the color of the link text by setting LinkVisited to true.
                 lbl.LinkVisited = true;
 
@@ -161,11 +158,22 @@ namespace RandomValuesNppPlugin
 
         private void picEasterEgg_Click(object sender, EventArgs e)
         {
-            ForceEasterEgg++;
-            if ((ForceEasterEgg == 5) && (picEasterEgg.Image == null))
-            {
-                helperTip.SetToolTip(picEasterEgg, "On certain days in the year you'll find an easter egg here ;)");
-                picEasterEgg.Image = RandomValuesNppPlugin.Properties.Resources.easteregg;
+            // click to reveal easter egg, but only on days without actual easter egg
+            if (picEasterEgg.Tag.ToString() == "0") {
+                ForceEasterEgg++;
+
+                if (ForceEasterEgg % 5 == 0)
+                {
+                    // show image
+                    if (ForceEasterEgg      <=  5) picEasterEgg.Image = RandomValuesNppPlugin.Properties.Resources.easteregg; // click 5 times
+                    else if (ForceEasterEgg <= 10) picEasterEgg.Image = RandomValuesNppPlugin.Properties.Resources.clover;    // click 5 more times etc.
+                    else if (ForceEasterEgg <= 15) picEasterEgg.Image = RandomValuesNppPlugin.Properties.Resources.pumpkin;
+                    else picEasterEgg.Image                           = RandomValuesNppPlugin.Properties.Resources.oliebol;
+
+                    // update help text + counter
+                    helperTip.SetToolTip(picEasterEgg, "On certain days in the year you'll find an easter egg here ;)");
+                    if (ForceEasterEgg >= 20) ForceEasterEgg = 0; // cycle back to first
+                }
             }
         }
 
