@@ -654,11 +654,20 @@ namespace RandomValuesNppPlugin
                     case 'B':
                         CharList = (PwSafe ? VARCHAR_MASK_PW_B : VARCHAR_MASK_B);
                         break;
+                    case 'a':
+                        CharList = (PwSafe ? VARCHAR_MASK_PW_A : VARCHAR_MASK_A).ToLower();
+                        break;
+                    case 'b':
+                        CharList = (PwSafe ? VARCHAR_MASK_PW_B : VARCHAR_MASK_B).ToLower();
+                        break;
                     case '9':
                         CharList = (PwSafe ? VARCHAR_MASK_PW_0 : VARCHAR_MASK_0);
                         break;
                     case 'F':
                         CharList = VARCHAR_MASK_F;
+                        break;
+                    case 'f':
+                        CharList = VARCHAR_MASK_F.ToLower();
                         break;
                     case '@':
                         CharList = VARCHAR_MASK_S;
@@ -671,6 +680,15 @@ namespace RandomValuesNppPlugin
                         break;
                     case 'Z':
                         CharList = (PwSafe ? VARCHAR_MASK_PW_Z : VARCHAR_MASK_Z);
+                        break;
+                    case 'x':
+                        CharList = (PwSafe ? VARCHAR_MASK_PW_X : VARCHAR_MASK_X).ToLower();
+                        break;
+                    case 'y':
+                        CharList = (PwSafe ? VARCHAR_MASK_PW_Y : VARCHAR_MASK_Y).ToLower();
+                        break;
+                    case 'z':
+                        CharList = (PwSafe ? VARCHAR_MASK_PW_Z : VARCHAR_MASK_Z).ToLower();
                         break;
                     default: // not a valid mask character, just copy it into password
                         res = res + Mask[i];
