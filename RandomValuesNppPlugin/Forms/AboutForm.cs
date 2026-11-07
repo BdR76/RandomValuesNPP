@@ -58,50 +58,57 @@ namespace RandomValuesNppPlugin
         {
             // display easter egg icon on certain dates
             DateTime today = DateTime.Now.AddHours(-3); // day 'starts' in the morning and lasts after midnight (especially for new years eve etc.)
-            //DateTime today = new DateTime(2023, 12, 31); // testing
+            //DateTime today = new DateTime(2026, 12, 31); // testing
 
             string msg = "";
             string obj = "";
             Image img = RandomValuesNppPlugin.Properties.Resources.easteregg;
 
-            int easter = IsEaster(today);
-            if (easter > 0)
-            {
-                // March/April ?th, varies
-                msg = string.Format("Easter {0}day", (easter == 1 ? "Sun" : "Mon"));
-                obj = "an Easter egg";
-                img = RandomValuesNppPlugin.Properties.Resources.easteregg;
-            }
-            else
-            {
-                int daymonth = today.Month * 100 + today.Day;
+            int monthday = today.Month * 100 + today.Day;
 
-                switch (daymonth)
-                {
-                    case 317: // March 17th
-                        msg = "St. Patrick's Day";
-                        obj = "a four-leaf clover";
-                        img = RandomValuesNppPlugin.Properties.Resources.clover;
-                        break;
-                    case 1031: // October 31st
-                        msg = "Halloween";
-                        obj = "a spooky pumpkin";
-                        img = RandomValuesNppPlugin.Properties.Resources.pumpkin;
-                        break;
-                    case 101: // January 1st
-                    case 1231: // December 31th
-                        msg = "New Year" + (daymonth == 1231 ? "'s Eve" : "");
-                        obj = "an oliebol";
-                        img = RandomValuesNppPlugin.Properties.Resources.oliebol;
-                        break;
-                }
+            switch (monthday)
+            {
+                case 323: // March 23rd
+                case 422: // April 22nd
+                case 605: // June 5th
+                case 1024: // Oct 24th
+                    msg = monthday == 323 ? "World Meteorological Day" :
+                          monthday == 422 ? "Earth Day" :
+                          monthday == 605 ? "World Environment Day" :
+                          monthday == 1024 ? "International Day of Climate Action" : "";
+                    msg = "Today is " + msg + ", support your local climate change organizations :)";
+                    img = RandomValuesNppPlugin.Properties.Resources.earth;
+                    break;
+                case 1031: // October 31st
+                case 1111: // November 11th
+                    msg = "Happy " + (monthday == 1031 ? "Halloween!" : "St. Maarten!");
+                    obj = (monthday == 1031 ? "a spooky pumpkin" : "a lantern and candy");
+                    img = RandomValuesNppPlugin.Properties.Resources.pumpkin;
+                    break;
+                case 828: // August 28th
+                case 101: // January 1st
+                case 1231: // December 31th
+                    msg = "Happy " + (monthday == 828 ? "Summer fair!" : "New Year" + (monthday == 1231 ? "'s Eve!" : "!"));
+                    obj = "an oliebol";
+                    img = RandomValuesNppPlugin.Properties.Resources.oliebol;
+                    break;
+                default:
+                    int easter = IsEaster(today);
+                    if (easter > 0)
+                    {
+                        // March/April ?th, varies
+                        msg = string.Format("Happy Easter {0}day!", (easter == 1 ? "Sun" : "Mon"));
+                        obj = "an Easter egg";
+                        img = RandomValuesNppPlugin.Properties.Resources.easteregg;
+                    };
+                    break;
             };
 
             // initialization easter egg
             if (msg != "")
             {
-                string tip = string.Format("Happy {0}! You've found {1} ;)", msg, obj);
-                helperTip.SetToolTip(picEasterEgg, tip);
+                if (obj != "") msg += string.Format(" You've found {0} ;)", obj);
+                helperTip.SetToolTip(picEasterEgg, msg);
                 picEasterEgg.Image = img;
                 picEasterEgg.Visible = true;
                 picEasterEgg.Tag = "1"; // today is day with actual easter egg
@@ -110,7 +117,7 @@ namespace RandomValuesNppPlugin
         //private void displayEasterEgg_old()
         //{
         //    // tooltip initialization easter eggs
-        //    helperTip.SetToolTip(picClover, "Happy St. Patricks day! You've found a four-leaf clover ;)");
+        //    helperTip.SetToolTip(picEarth, "Earth Day, support your local climate change organizations! You've found a globe ;)");
         //    helperTip.SetToolTip(picEasterEgg, "Happy Easter Day! You've found an Easter egg ;)");
         //    helperTip.SetToolTip(picPumpkin, "Happy Halloween! You've found a spooky pumpkin ;)");
         //    helperTip.SetToolTip(picOliebol, "Happy New Year! You've found an oliebol ;)");
@@ -126,7 +133,7 @@ namespace RandomValuesNppPlugin
         //    {
         //        int daymonth = (today.Month * 100 + today.Day);
         //
-        //        if (daymonth == 317)  picClover.Visible = true;  // March 17th
+        //        if (daymonth == 317)  picEarth.Visible = true;   // April 22nd
         //        if (daymonth == 1031) picPumpkin.Visible = true; // October 31st
         //        if (daymonth == 1231) picOliebol.Visible = true; // December 31th
         //        if (daymonth == 101) picOliebol.Visible = true;  // January 1st
@@ -139,6 +146,7 @@ namespace RandomValuesNppPlugin
             string urlcopy = url;
             if ((string)lbl.Tag == "1")
             {
+                //string suffix = string.Format("{0} ({1}bit)", ver, (IntPtr.Size * 8));
                 urlcopy = "Bas de Reuver <bdr1976@gmail.com>";
                 url = string.Format("mailto:{0}?subject={1} ({2}bit)", urlcopy, lblTitle.Text, (IntPtr.Size * 8));
                 url = url.Replace(" ", "%20");
@@ -162,17 +170,17 @@ namespace RandomValuesNppPlugin
             if (picEasterEgg.Tag.ToString() == "0") {
                 ForceEasterEgg++;
 
-                if (ForceEasterEgg % 5 == 0)
+                if (ForceEasterEgg % 3 == 0)
                 {
                     // show image
-                    if (ForceEasterEgg      <=  5) picEasterEgg.Image = RandomValuesNppPlugin.Properties.Resources.easteregg; // click 5 times
-                    else if (ForceEasterEgg <= 10) picEasterEgg.Image = RandomValuesNppPlugin.Properties.Resources.clover;    // click 5 more times etc.
-                    else if (ForceEasterEgg <= 15) picEasterEgg.Image = RandomValuesNppPlugin.Properties.Resources.pumpkin;
-                    else picEasterEgg.Image                           = RandomValuesNppPlugin.Properties.Resources.oliebol;
+                    if (ForceEasterEgg      <= 3) picEasterEgg.Image = RandomValuesNppPlugin.Properties.Resources.easteregg; // click 3 times
+                    else if (ForceEasterEgg <= 6) picEasterEgg.Image = RandomValuesNppPlugin.Properties.Resources.pumpkin;    // click 3 more times etc.
+                    else if (ForceEasterEgg <= 9) picEasterEgg.Image = RandomValuesNppPlugin.Properties.Resources.oliebol;
+                    else picEasterEgg.Image                           = RandomValuesNppPlugin.Properties.Resources.earth;
 
                     // update help text + counter
                     helperTip.SetToolTip(picEasterEgg, "On certain days in the year you'll find an easter egg here ;)");
-                    if (ForceEasterEgg >= 20) ForceEasterEgg = 0; // cycle back to first
+                    if (ForceEasterEgg >= 12) ForceEasterEgg = 0; // cycle back to first
                 }
             }
         }
