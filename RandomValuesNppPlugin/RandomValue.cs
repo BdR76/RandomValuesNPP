@@ -289,8 +289,6 @@ namespace RandomValuesNppPlugin
                 MixMask = (mix == "true");
                 PwSafe = (pws == "true");
             }
-
-            Console.WriteLine("name: {0}\ndatatype: {1}\nmask: {2}\nrange: {3}\noptions: {4}", Description, DataType.ToString(), Mask, Range, Options);
         }
 
         public string GetOptionsAsString()
@@ -336,7 +334,6 @@ namespace RandomValuesNppPlugin
 
         public void DeSerialise(string args)
         {
-            Console.WriteLine("text: {0}", args);
             Match m = regex.Match(args);
 
             if (m.Success)
